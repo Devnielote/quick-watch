@@ -5,10 +5,332 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quick Watch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
-    <h1>Quick Watch</h1>
+    <nav>
+      <div class="logo__container">
+        <img src="./styles/assets/movie-frame-icon.png" alt="" />
+        <h1>Quick Watch</h1>
+      </div>
+      <div class="menu__container">
+        <ul>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">Directors</a></li>
+          <li><a href="#">About API</a></li>
+          <li><a href="#">Series</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="main">
+      <header>
+        <h2>Welcome to Quick Watch</h2>
+        <p>
+          The less used web app to look for information about movies, series and
+          directors.
+        </p>
+      </header>
+      <section class="search__container">
+        <div class="search__bar">
+          <img src="./styles/assets/icons8-search.svg" alt="" />
+          <input type="search" placeholder="Search movies, series, directors" />
+        </div>
+      </section>
+      <section class="this-month__container">
+        <div class="this-month__title">
+          <h2>Showing this month</h2>
+        </div>
+        <div class="this-month__movies">
+          <div class="--carousel">
+            <div class="this-month__movie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+              />
+              <div class="video__info">
+                <div class="movie__name">
+                  <p>Movie name</p>
+                </div>
+                <div class="movie_rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="this-month__movie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.e-xlhDRkxLWvgcDSuh6IeAHaK6%26pid%3DApi&f=1"
+                alt=""
+              />
+              <div class="video__info">
+                <div class="movie__name">
+                  <p>Movie name</p>
+                </div>
+                <div class="movie_rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="this-month__movie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Ffd%2Fb4%2F41%2Ffdb44148ad1be4b980211623d2b8d997.jpg&f=1&nofb=1"
+                alt=""
+              />
+              <div class="video__info">
+                <div class="movie__name">
+                  <p>Movie name</p>
+                </div>
+                <div class="movie_rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel__controls">⚫⚫⚫⚫</div>
+      </section>
+      <section class="popular__container">
+        <div class="popular__title">
+          <h2>Popular movies</h2>
+        </div>
+        <div class="popular__movies">
+          <div class="--carousel">
+            <div class="popular__movie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="movie__name">
+                  <p>Movie name</p>
+                </div>
+                <div class="movie_rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="popular__movie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+              />
+              <div class="video__info">
+                <div class="movie__name">
+                  <p>Movie name</p>
+                </div>
+                <div class="movie_rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="popular__movie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+              />
+              <div class="video__info">
+                <div class="movie__name">
+                  <p>Movie name</p>
+                </div>
+                <div class="movie_rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel__controls">⚫⚫⚫⚫</div>
+      </section>
+      <section class="new-series__container">
+        <div class="new-series__title">
+          <h2>New series</h2>
+        </div>
+        <div class="new-series">
+          <div class="--carousel">
+            <div class="new-serie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="new-serie__name">
+                  <p>Serie name</p>
+                </div>
+                <div class="new-serie__rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="new-serie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="new-serie__name">
+                  <p>Serie name</p>
+                </div>
+                <div class="new-serie__rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="new-serie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="new-serie__name">
+                  <p>Serie name</p>
+                </div>
+                <div class="new-serie__rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel__controls">⚫⚫⚫⚫</div>
+      </section>
+      <section class="popular-series__container">
+        <div class="popular-series__title">
+          <h2>Popular series</h2>
+        </div>
+        <div class="popular-series">
+          <div class="--carousel">
+            <div class="popular-serie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="popular-serie__name">
+                  <p>Serie name</p>
+                </div>
+                <div class="popular-serie__rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="popular-serie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="popular-serie__name">
+                  <p>Serie name</p>
+                </div>
+                <div class="popular-serie__rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+            <div class="popular-serie">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
+                alt=""
+                style="width: 100%"
+              />
+              <div class="video__info">
+                <div class="popular-serie__name">
+                  <p>Serie name</p>
+                </div>
+                <div class="popular-serie__rating">
+                  <img
+                    src="./styles/assets/start-flaticon.png"
+                    alt=""
+                    style="width: 20px"
+                  />
+                  <span style="color: goldenrod">3.6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel__controls">⚫⚫⚫⚫</div>
+      </section>
+    </div>
+    <footer>
+      <a href="https://www.flaticon.com/free-icons/movie" title="movie icons"
+        >Movie icons created by Freepik - Flaticon</a
+      >
+      <br />
+      <a target="_blank" href="https://icons8.com/icon/82712/search">Search</a>
+      icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+      <br />
+      <a href="https://www.flaticon.com/free-icons/star" title="star icons"
+        >Star icons created by Maxim Basinski Premium - Flaticon</a
+      >
+    </footer>
     <script src="./src/API.js"></script>
     <script src="./src/index.js"></script>
   </body>
