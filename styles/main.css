@@ -143,7 +143,7 @@ nav ul {
 
 .categories__container ul li {
     width: auto;
-    margin-left: 5rem;
+    margin-left: 2rem;
     padding: .5rem 2rem;
     border-radius: .5rem;
     box-shadow: 2px 7px 8px -2px rgba(0,0,0,0.45);
@@ -180,7 +180,7 @@ header .header__info span {
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
-    width: 100%;
+    width: 95%;
     height: 100%;
 }
 
