@@ -1,12 +1,18 @@
+const api = axios.create({
+    baseURL: 'https://api.themoviedb.org/3/',
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+    },
+    params: {
+        'api_key': API_KEY,
+    }
+});
+
 async function getNowPlayingMoviePreview() {
     const trendingContainer = document.querySelector('#trending-container');
-    const res = await fetch(API_NOWPLAYINGMOVIES);
-    if(res.status !==200){
-        console.log(`Ha habido un error con tu solicitud: ${res.status}`)
-    } else {
-        const data = await res.json();
+    const { data } = await api('movie/now_playing');
+    
         const movie = data.results;
-        console.log(data.results);
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.classList = 'this-month__movie'
@@ -34,18 +40,14 @@ async function getNowPlayingMoviePreview() {
             trendingMovie.append(movieImg,infoContainer);
             trendingContainer.append(trendingMovie);
         });
-    }
+    
 }
 
 async function getTopRatedMoviesPreview() {
     const topRatedContainer = document.querySelector('#top-rated');
-    const res = await fetch(API_TOPMOVIES);
-    if(res.status !==200){
-        console.log(`Ha habido un error con tu solicitud: ${res.status}`)
-    } else {
-        const data = await res.json();
+    const {data} = await api('movie/top_rated');
+   
         const movie = data.results;
-        console.log(data.results);
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.classList = 'this-month__movie'
@@ -73,17 +75,13 @@ async function getTopRatedMoviesPreview() {
             trendingMovie.append(movieImg,infoContainer);
             topRatedContainer.append(trendingMovie);
         });
-    }
+    
 }
 async function getOnAirSeriesPreview() {
     const topRatedContainer = document.querySelector('#on-air');
-    const res = await fetch(API_ONAIRSERIES);
-    if(res.status !==200){
-        console.log(`Ha habido un error con tu solicitud: ${res.status}`)
-    } else {
-        const data = await res.json();
+    const {data} = await api('tv/on_the_air');
+
         const movie = data.results;
-        console.log(data.results);
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.classList = 'this-month__movie'
@@ -111,17 +109,12 @@ async function getOnAirSeriesPreview() {
             trendingMovie.append(movieImg,infoContainer);
             topRatedContainer.append(trendingMovie);
         });
-    }
 }
 async function getTopRatedSeriesPreview() {
     const topRatedContainer = document.querySelector('#top-rated-series');
-    const res = await fetch(API_TOPRATEDSERIES);
-    if(res.status !==200){
-        console.log(`Ha habido un error con tu solicitud: ${res.status}`)
-    } else {
-        const data = await res.json();
+    const {data} = await api('tv/top_rated');
+
         const movie = data.results;
-        console.log(data.results);
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.classList = 'this-month__movie'
@@ -149,17 +142,13 @@ async function getTopRatedSeriesPreview() {
             trendingMovie.append(movieImg,infoContainer);
             topRatedContainer.append(trendingMovie);
         });
-    }
 }
+
 async function getCategories() {
     const categoriesContainer = document.querySelector('#categories-container');
-    const res = await fetch(API_GENRES);
-    if(res.status !==200){
-        console.log(`Ha habido un error con tu solicitud: ${res.status}`)
-    } else {
-        const data = await res.json();
+    const {data} = await api('genre/movie/list');
+
         const genres = data.genres;
-        console.log(genres);
         const generateMovie = genres.forEach(genre => {
             const li = document.createElement('li');
             li.classList = 'categorie';
@@ -169,17 +158,13 @@ async function getCategories() {
             li.append(a);
             categoriesContainer.append(li);
         });
-    }
 }
+
 async function getAsideCategories() {
     const asideContainer = document.querySelector('#aside-categories');
-    const res = await fetch(API_GENRES);
-    if(res.status !==200){
-        console.log(`Ha habido un error con tu solicitud: ${res.status}`)
-    } else {
-        const data = await res.json();
+    const {data} = await api('genre/movie/list');
+
         const genres = data.genres;
-        console.log(genres);
         const generateMovie = genres.forEach(genre => {
             const li = document.createElement('li');
             const a = document.createElement('a');
@@ -188,7 +173,6 @@ async function getAsideCategories() {
             li.append(a);
             asideContainer.append(li);
         });
-    }
 }
 
 getCategories();
