@@ -1,5 +1,5 @@
 .main {
-    margin-left: 300px;
+    margin-left: 200px;
     border-left: 1px solid var(--color-tertiary);
 }
 
@@ -8,7 +8,9 @@ h1 {
 }
 
 section > div > h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
+    text-align: left;
+    padding-left: 2rem;
 }
 
 nav {
@@ -36,12 +38,22 @@ nav a {
     font-size: 1rem;
 }
 
+.categories {
+    display: none;
+}
+
+
 header {
     display: flex;
+    margin: 2rem 0;
 }
 
 aside {
     display: block;
+}
+
+footer {
+    
 }
 
 /* animation */
