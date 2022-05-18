@@ -77,6 +77,7 @@ async function getTopRatedMoviesPreview() {
         });
     
 }
+
 async function getOnAirSeriesPreview() {
     const topRatedContainer = document.querySelector('#on-air');
     const {data} = await api('tv/on_the_air');
@@ -110,6 +111,7 @@ async function getOnAirSeriesPreview() {
             topRatedContainer.append(trendingMovie);
         });
 }
+
 async function getTopRatedSeriesPreview() {
     const topRatedContainer = document.querySelector('#top-rated-series');
     const {data} = await api('tv/top_rated');
@@ -158,7 +160,7 @@ async function getCategories() {
             li.append(a);
             categoriesContainer.append(li);
         });
-}
+    }
 
 async function getAsideCategories() {
     const asideContainer = document.querySelector('#aside-categories');
@@ -173,11 +175,4 @@ async function getAsideCategories() {
             li.append(a);
             asideContainer.append(li);
         });
-}
-
-getCategories();
-getAsideCategories();
-getNowPlayingMoviePreview();
-getTopRatedMoviesPreview();
-getOnAirSeriesPreview();
-getTopRatedSeriesPreview()
+};

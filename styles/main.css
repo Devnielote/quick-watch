@@ -189,7 +189,7 @@ header .header__info span {
     border-radius: 3rem;
 }
 
-.this-month__container, .popular__container, .new-series__container, .popular-series__container {
+.generic__section {
     width: 100%;
     min-width: 320px;
     max-width: 1400px;
@@ -197,7 +197,7 @@ header .header__info span {
     margin-top: 5rem;
 }
 
-.this-month__movie, .popular__movie, .new-serie, .popular-serie {
+.this-month__movie {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -213,6 +213,7 @@ header .header__info span {
     justify-content: space-evenly;
     align-items: center;
     margin-top: 1rem;
+    overflow: hidden;
 }
 
 .video__info div:nth-child(2) {

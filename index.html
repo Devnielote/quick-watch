@@ -31,11 +31,18 @@
       </div>
       <div class="menu__container">
         <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">Directors</a></li>
-          <li><a href="#">About API</a></li>
-          <li><a href="#">Contact</a></li>
+          <li>
+            <a href="#movies">Movies</a>
+          </li>
+          <li><a href="#series">Series</a></li>
+          <li><a href="#directors">Directors</a></li>
+          <li>
+            <a
+              href="https://developers.themoviedb.org/3/getting-started/introduction"
+              >About API</a
+            >
+          </li>
+          <li><a href="https://github.com/Devnielote">Contact</a></li>
         </ul>
       </div>
     </nav>
@@ -68,20 +75,23 @@
           <ul id="categories-container"></ul>
         </div>
       </section>
-      <section class="this-month__container">
-        <div class="this-month__title">
+      <!-- Movies -->
+      <section class="generic__section" id="generic-section">
+        <div class="title__container">
           <h2>Now playing</h2>
         </div>
-        <div class="this-month__movies">
+        <div class="medias__container">
           <div class="--carousel" id="trending-container"></div>
         </div>
-        <div class="carousel__controls">⚫⚫⚫⚫</div>
+        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
       </section>
-      <section class="popular__container">
-        <div class="popular__title">
+      <!-- Movies end -->
+      <!-- ------------------------------------------------------ -->
+      <section class="generic__section" id="generic-section">
+        <div class="title__container">
           <h2>Top rated movies</h2>
         </div>
-        <div class="popular__movies">
+        <div class="medias__container">
           <div class="--carousel" id="top-rated">
             <!-- <div class="popular__movie">
               <img
@@ -105,26 +115,30 @@
             </div> -->
           </div>
         </div>
-        <div class="carousel__controls">⚫⚫⚫⚫</div>
+        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
       </section>
-      <section class="new-series__container">
-        <div class="new-series__title">
+      <!-- Movies end -->
+      <!-- Series -->
+      <section class="generic__section" id="generic-section">
+        <div class="title__container">
           <h2>On air series</h2>
         </div>
-        <div class="new-series">
+        <div class="medias__container">
           <div class="--carousel" id="on-air"></div>
         </div>
-        <div class="carousel__controls">⚫⚫⚫⚫</div>
+        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
       </section>
-      <section class="popular-series__container">
-        <div class="popular-series__title">
+      <!-- ------------------------------------------------------- -->
+      <section class="generic__section" id="generic-section">
+        <div class="title__container">
           <h2>Top rated series</h2>
         </div>
-        <div class="popular-series">
+        <div class="medias__container">
           <div class="--carousel" id="top-rated-series"></div>
         </div>
-        <div class="carousel__controls">⚫⚫⚫⚫</div>
+        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
       </section>
+      <!-- Series end -->
     </div>
     <footer>
       <a href="https://github.com/Devnielote"> Made with 💚 by @devnielote </a>
@@ -138,5 +152,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./src/API.js"></script>
     <script src="./src/index.js"></script>
+    <script src="./src/navigation.js"></script>
   </body>
 </html>
