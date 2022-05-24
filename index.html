@@ -24,10 +24,12 @@
     />
   </head>
   <body>
-    <nav>
+    <nav id="top-nav-container">
       <div class="logo__container">
-        <img src="./styles/assets/movie-frame-icon.png" alt="" />
-        <h1>Quick Watch</h1>
+        <a class="logo__container" href="#">
+          <img src="./styles/assets/movie-frame-icon.png" alt="" />
+          <h1>Quick Watch</h1>
+        </a>
       </div>
       <div class="menu__container">
         <ul>
@@ -46,99 +48,236 @@
         </ul>
       </div>
     </nav>
-    <aside>
+    <aside id="desktop-categories-container">
       <div class="aside__menu">
         <span>Categories</span>
         <ul id="aside-categories"></ul>
       </div>
     </aside>
-    <div class="main">
-      <header>
-        <div class="header__title">
-          <p>Welcome to Quick Watch</p>
-        </div>
-        <div class="header__info">
-          <span>
-            The less used web app to look for information about movies, series
-            and directors.
-          </span>
-        </div>
-      </header>
-      <section class="search__container">
-        <div class="search__bar">
-          <img src="./styles/assets/icons8-search.svg" alt="" />
-          <input type="search" placeholder="Search movies, series, directors" />
-        </div>
-      </section>
-      <section class="categories">
+    <div class="main" id="main-container">
+      <section id="categories-container">
         <div class="categories__container">
-          <ul id="categories-container"></ul>
+          <ul class="categories" id="categorie-list-container"></ul>
         </div>
       </section>
-      <!-- Movies -->
-      <section class="generic__section" id="generic-section">
-        <div class="title__container">
-          <h2>Now playing</h2>
-        </div>
-        <div class="medias__container">
-          <div class="--carousel" id="trending-container"></div>
-        </div>
-        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
+      <section id="search-bar-container" class="view__header">
+        <section class="search__container" id="search-container">
+          <div class="search__bar">
+            <img src="./styles/assets/icons8-search.svg" alt="" />
+            <input
+              type="search"
+              placeholder="Search movies, series, directors"
+              id="search-form-input"
+            />
+            <img
+              id="search-btn"
+              class="angle-rigth"
+              src="./styles/assets/angle-right.svg"
+              alt=""
+            />
+          </div>
+        </section>
       </section>
-      <!-- Movies end -->
-      <!-- ------------------------------------------------------ -->
-      <section class="generic__section" id="generic-section">
-        <div class="title__container">
-          <h2>Top rated movies</h2>
-        </div>
-        <div class="medias__container">
-          <div class="--carousel" id="top-rated">
-            <!-- <div class="popular__movie">
-              <img
-                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TNBGOIGcAtoXZmEdsjojCgHaK-%26pid%3DApi&f=1"
-                alt=""
-                style="width: 100%"
-              />
-              <div class="video__info">
-                <div class="movie__name">
-                  <p>Movie name</p>
-                </div>
-                <div class="movie_rating">
-                  <img
-                    src="./styles/assets/start-flaticon.png"
-                    alt=""
-                    style="width: 20px"
-                  />
-                  <span style="color: goldenrod">3.6</span>
-                </div>
-              </div>
-            </div> -->
+      <header class="view__title" id="movie-header">
+        <div class="movie-detail-bg">
+          <div class="back-arrow">
+            <img src="./styles/assets/arrow-left.svg" alt="" />
           </div>
         </div>
-        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
+      </header>
+      <section class="search-result__container" id="search-result-container">
+        <div class="result__title">
+          <h2>Results for: Eugenio Derbez</h2>
+        </div>
+        <div id="movie-preview-container" class="movie-preview__container">
+          <div class="categorie-movie__preview">
+            <img
+              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
+              alt=""
+            />
+            <div class="video__info">
+              <div class="movie__name">
+                <p>Nombre de la pelicula</p>
+              </div>
+              <div class="movie_rating">
+                <img
+                  src="./styles/assets/start-flaticon.png"
+                  alt=""
+                  style="width: 20px"
+                />
+                <span>3.5</span>
+              </div>
+            </div>
+          </div>
+          <div class="categorie-movie__preview">
+            <img
+              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
+              alt=""
+            />
+            <div class="video__info">
+              <div class="movie__name">
+                <p>Nombre de la pelicula</p>
+              </div>
+              <div class="movie_rating">
+                <img
+                  src="./styles/assets/start-flaticon.png"
+                  alt=""
+                  style="width: 20px"
+                />
+                <span>3.5</span>
+              </div>
+            </div>
+          </div>
+          <div class="categorie-movie__preview">
+            <img
+              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
+              alt=""
+            />
+            <div class="video__info">
+              <div class="movie__name">
+                <p>Nombre de la pelicula</p>
+              </div>
+              <div class="movie_rating">
+                <img
+                  src="./styles/assets/start-flaticon.png"
+                  alt=""
+                  style="width: 20px"
+                />
+                <span>3.5</span>
+              </div>
+            </div>
+          </div>
+          <div class="categorie-movie__preview">
+            <img
+              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
+              alt=""
+            />
+            <div class="video__info">
+              <div class="movie__name">
+                <p>Nombre de la pelicula</p>
+              </div>
+              <div class="movie_rating">
+                <img
+                  src="./styles/assets/start-flaticon.png"
+                  alt=""
+                  style="width: 20px"
+                />
+                <span>3.5</span>
+              </div>
+            </div>
+          </div>
+          <div class="categorie-movie__preview">
+            <img
+              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
+              alt=""
+            />
+            <div class="video__info">
+              <div class="movie__name">
+                <p>Nombre de la pelicula</p>
+              </div>
+              <div class="movie_rating">
+                <img
+                  src="./styles/assets/start-flaticon.png"
+                  alt=""
+                  style="width: 20px"
+                />
+                <span>3.5</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-      <!-- Movies end -->
-      <!-- Series -->
-      <section class="generic__section" id="generic-section">
-        <div class="title__container">
-          <h2>On air series</h2>
-        </div>
-        <div class="medias__container">
-          <div class="--carousel" id="on-air"></div>
-        </div>
-        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
+      <div class="generic-sections-container" id="home-section__container">
+        <section class="generic__section" id="generic-section">
+          <div class="title__container">
+            <h2>Now playing</h2>
+          </div>
+          <div class="medias__container">
+            <div class="--carousel" id="trending-container"></div>
+          </div>
+          <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
+        </section>
+
+        <section class="generic__section" id="generic-section">
+          <div class="title__container">
+            <h2>Top rated movies</h2>
+          </div>
+          <div class="medias__container">
+            <div class="--carousel" id="top-rated"></div>
+          </div>
+        </section>
+
+        <section class="generic__section" id="generic-section">
+          <div class="title__container">
+            <h2>On air series</h2>
+          </div>
+          <div class="medias__container">
+            <div class="--carousel" id="on-air"></div>
+          </div>
+        </section>
+
+        <section class="generic__section" id="generic-section">
+          <div class="title__container">
+            <h2>Top rated series</h2>
+          </div>
+          <div class="medias__container">
+            <div class="--carousel" id="top-rated-series"></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="categorie--detail" id="category-single-view">
+        <div class="categorie__title" id="category-title"></div>
       </section>
-      <!-- ------------------------------------------------------- -->
-      <section class="generic__section" id="generic-section">
-        <div class="title__container">
-          <h2>Top rated series</h2>
+
+      <section class="media-detail__container" id="media-details-container">
+        <div class="media__title">
+          <p>Nombre de la pelicula/Serie</p>
+          <div class="video__info--noMargin">
+            <div class="movie_rating">
+              <img
+                src="./styles/assets/start-flaticon.png"
+                alt=""
+                style="width: 20px"
+              />
+              <span>4.6</span>
+            </div>
+          </div>
         </div>
-        <div class="medias__container">
-          <div class="--carousel" id="top-rated-series"></div>
+        <div class="media__info">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam
+            quis a omnis adipisci odit sunt quaerat molestias, eius
+            necessitatibus illo voluptas, at eum nam debitis earum odio
+            consequuntur qui nesciunt sapiente illum. Facilis inventore quos
+            dolore nemo reprehenderit dolores omnis?
+          </p>
+          <div class="media__directors">
+            <p>Director: Name</p>
+          </div>
+          <div class="media__cast">
+            <div class="cast__member">
+              <span>Name</span>
+              <span>Character</span>
+            </div>
+            <div class="cast__member">
+              <span>Name</span>
+              <span>Character</span>
+            </div>
+            <div class="cast__member">
+              <span>Name</span>
+              <span>Character</span>
+            </div>
+            <div class="cast__member">
+              <span>Name</span>
+              <span>Character</span>
+            </div>
+          </div>
         </div>
-        <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
+        <div class="relatedMovies">
+          <p>Related movies</p>
+        </div>
       </section>
-      <!-- Series end -->
     </div>
     <footer>
       <a href="https://github.com/Devnielote"> Made with 💚 by @devnielote </a>
@@ -151,6 +290,7 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./src/API.js"></script>
+    <script src="./src/nodes.js"></script>
     <script src="./src/index.js"></script>
     <script src="./src/navigation.js"></script>
   </body>
