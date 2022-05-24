@@ -1,3 +1,7 @@
+searchBtn.addEventListener('click', () => {
+    location.hash = `search=${searchFormInput.value}`
+});
+
 window.addEventListener('DOMContentLoaded', navigator);
 window.addEventListener('hashchange', navigator);
 
@@ -6,15 +10,15 @@ function navigator() {
     if (location.hash.startsWith('#movies')) {
         moviesPage();
     } else if (location.hash.startsWith('#search=')){
-        searchPage();
+        searchPageResults();
     } else if (location.hash.startsWith('#series')) {
         seriesPage()
     } else if (location.hash.startsWith('#directors')) {
         directorsPage()
-    } else if (location.hash.startsWith('#now-playing')) {
-        nowPlayingPage()
-    } else if (location.hash.startsWith('#top-rated-movies')) {
-        topRatedMoviesPage()
+    } else if (location.hash.startsWith('#category=')) {
+        singleCategoryPage()
+    } else if (location.hash.startsWith('#movie=')) {
+        singleMediaDetails()
     } else if (location.hash.startsWith('#on-air')) {
         onAirPage()
     } else if (location.hash.startsWith('#top-rated-series')) {
@@ -24,7 +28,17 @@ function navigator() {
     }
 }
 
+
 function homePage(){
+    homeSections.classList.remove('disabled');
+    headerContainer.classList.add('disabled');
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategorySection.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    resultsContainer.classList.add('disabled');
+    singleCategoryView.classList.add('disabled');
+    singleMediaView.classList.add('disabled');
     getCategories();
     getAsideCategories();
     getNowPlayingMoviePreview();
@@ -33,34 +47,57 @@ function homePage(){
     getTopRatedSeriesPreview();
 }
 
-function moviesPage(){
-    console.log('Movies page');
-}
-
-function seriesPage(){
-    console.log('Series page');
-}
-
-function directorsPage(){
-    console.log('Directors page');
-}
-
-function nowPlayingPage(){
-    console.log('Now playing page');
-}
-
-function topRatedMoviesPage(){
-    console.log('Top rated movies page');
-}
-
-function onAirPage(){
-    console.log('On air page');
-}
-
-function topRatedSeriesPage(){
-    console.log('Top rated series page');
-}
-
-function searchPage(){
+function searchPageResults(){
+    getAsideCategories();
     console.log('Searching something');
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategorySection.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    singleCategoryView.classList.add('disabled');
+    singleMediaView.classList.add('disabled');
+    homeSections.classList.add('disabled');
+    resultsContainer.classList.remove('disabled');
+}
+
+
+function singleCategoryPage(){
+    getAsideCategories();
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategorySection.classList.remove('disabled');
+    dekstopCategorySection.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    resultsContainer.classList.add('disabled');
+    singleCategoryView.classList.remove('disabled');
+    singleCategoryMediaPreview.classList.add('disabled');
+    singleMediaView.classList.add('disabled');
+    homeSections.classList.add('disabled');
+
+    const [_, categoryData] = location.hash.split('=');
+    const [categoryId, categoryName] = categoryData.split('-');
+    const newName = categoryName.replace('%20', '');
+    
+    getMoviesByCategory(categoryId);
+    const titleContainer = document.createElement('div');
+    titleContainer.classList = 'category-title';
+    titleContainer.id = 'category-title';
+    const actualCategory = document.createElement('h2');
+    const h2Text = document.createTextNode(`${newName}`);
+    actualCategory.append(h2Text);
+    titleContainer.append(actualCategory);
+    singleCategoryView.append(titleContainer);
+}
+
+function singleMediaDetails(){
+    getAsideCategories();
+    console.log('Single media details');
+    topNavContainer.classList.add('disabled');
+    mobileCategorySection.classList.add('disabled');
+    searchBarSection.classList.add('disabled');
+    resultsContainer.classList.add('disabled');
+    headerContainer.classList.remove('disabled');
+    singleCategoryView.classList.add('disabled');
+    singleMediaView.classList.remove('disabled');
+    homeSections.classList.add('disabled');
 }
