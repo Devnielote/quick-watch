@@ -1,12 +1,12 @@
 searchBtn.addEventListener('click', () => {
-    location.hash = `search=${searchFormInput.value}`
+    location.hash = `search=${searchFormInput.value.trim()}`
 });
 
 window.addEventListener('DOMContentLoaded', navigator);
 window.addEventListener('hashchange', navigator);
 
 function navigator() {
-    console.log({location});
+
     if (location.hash.startsWith('#movies')) {
         moviesPage();
     } else if (location.hash.startsWith('#search=')){
@@ -58,6 +58,9 @@ function searchPageResults(){
     singleMediaView.classList.add('disabled');
     homeSections.classList.add('disabled');
     resultsContainer.classList.remove('disabled');
+
+    const [_, query] = location.hash.split('=');
+    getMoviesBySearch(query);
 }
 
 
@@ -100,4 +103,22 @@ function singleMediaDetails(){
     singleCategoryView.classList.add('disabled');
     singleMediaView.classList.remove('disabled');
     homeSections.classList.add('disabled');
+
+    const [_, movieId] = location.hash.split('=');
+    // getMovie(movieId);
+}
+
+function fullMediasPage(){
+    getAsideCategories();
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategorySection.classList.remove('disabled');
+    dekstopCategorySection.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    resultsContainer.classList.add('disabled');
+    singleCategoryView.classList.remove('disabled');
+    singleCategoryMediaPreview.classList.add('disabled');
+    singleMediaView.classList.add('disabled');
+    homeSections.classList.remove('disabled');
+    getFullMedias();
 }

@@ -73,6 +73,7 @@ aside {
 
 .aside__menu ul li {
     margin-top: 1rem;
+    cursor: pointer;
 }
 
 .aside__menu ul li a {
@@ -144,7 +145,7 @@ nav ul {
     margin-bottom: 2rem;
 }
 
-header {
+.view__title {
     position: relative;
     width: 100%;
     min-width: 320px;
@@ -166,6 +167,7 @@ header {
     padding: .5rem;
     border-radius: .8rem;
     background-color: var(--color-primary);
+    cursor: pointer;
 }
 
 .back-arrow img {
@@ -193,6 +195,7 @@ header {
     box-shadow: 2px 7px 8px -2px rgba(0,0,0,0.45);
 -webkit-box-shadow: 2px 7px 8px -2px rgba(0,0,0,0.45);
 -moz-box-shadow: 2px 7px 8px -2px rgba(0,0,0,0.45);
+    cursor: pointer;
 }
 
 .categories__container ul li:first-child {
@@ -222,6 +225,22 @@ header {
     max-width: 1400px;
     margin: 0 auto;
     margin-top: 5rem;
+}
+
+.title__container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.seeMore__btn {
+    width: 5rem;
+    color: var(--color-secondary);
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .this-month__movie {
@@ -349,14 +368,14 @@ footer {
     margin-top: 1rem;
 }
 
-.media__cast {
+.media__genres {
     display: flex;
     flex-wrap: wrap;
     border-top: 1px solid var(--color-grey);
     margin-top: 2rem;
 }
 
-.cast__member {
+.media__genre {
     display: flex;
     flex-direction: column;
     margin: 1rem;

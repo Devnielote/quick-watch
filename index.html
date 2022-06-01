@@ -81,116 +81,22 @@
       <header class="view__title" id="movie-header">
         <div class="movie-detail-bg">
           <div class="back-arrow">
-            <img src="./styles/assets/arrow-left.svg" alt="" />
+            <img id="back-btn" src="./styles/assets/arrow-left.svg" alt="" />
           </div>
         </div>
       </header>
       <section class="search-result__container" id="search-result-container">
-        <div class="result__title">
-          <h2>Results for: Eugenio Derbez</h2>
-        </div>
-        <div id="movie-preview-container" class="movie-preview__container">
-          <div class="categorie-movie__preview">
-            <img
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
-              alt=""
-            />
-            <div class="video__info">
-              <div class="movie__name">
-                <p>Nombre de la pelicula</p>
-              </div>
-              <div class="movie_rating">
-                <img
-                  src="./styles/assets/start-flaticon.png"
-                  alt=""
-                  style="width: 20px"
-                />
-                <span>3.5</span>
-              </div>
-            </div>
-          </div>
-          <div class="categorie-movie__preview">
-            <img
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
-              alt=""
-            />
-            <div class="video__info">
-              <div class="movie__name">
-                <p>Nombre de la pelicula</p>
-              </div>
-              <div class="movie_rating">
-                <img
-                  src="./styles/assets/start-flaticon.png"
-                  alt=""
-                  style="width: 20px"
-                />
-                <span>3.5</span>
-              </div>
-            </div>
-          </div>
-          <div class="categorie-movie__preview">
-            <img
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
-              alt=""
-            />
-            <div class="video__info">
-              <div class="movie__name">
-                <p>Nombre de la pelicula</p>
-              </div>
-              <div class="movie_rating">
-                <img
-                  src="./styles/assets/start-flaticon.png"
-                  alt=""
-                  style="width: 20px"
-                />
-                <span>3.5</span>
-              </div>
-            </div>
-          </div>
-          <div class="categorie-movie__preview">
-            <img
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
-              alt=""
-            />
-            <div class="video__info">
-              <div class="movie__name">
-                <p>Nombre de la pelicula</p>
-              </div>
-              <div class="movie_rating">
-                <img
-                  src="./styles/assets/start-flaticon.png"
-                  alt=""
-                  style="width: 20px"
-                />
-                <span>3.5</span>
-              </div>
-            </div>
-          </div>
-          <div class="categorie-movie__preview">
-            <img
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.oL8HzdJT37s55zyqV6m18QHaK8%26pid%3DApi&f=1"
-              alt=""
-            />
-            <div class="video__info">
-              <div class="movie__name">
-                <p>Nombre de la pelicula</p>
-              </div>
-              <div class="movie_rating">
-                <img
-                  src="./styles/assets/start-flaticon.png"
-                  alt=""
-                  style="width: 20px"
-                />
-                <span>3.5</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="result__title"></div>
+        <div
+          id="movie-preview-container"
+          class="movie-preview__container"
+        ></div>
       </section>
       <div class="generic-sections-container" id="home-section__container">
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>Now playing</h2>
+            <button id="see-more" class="seeMore__btn">More</button>
           </div>
           <div class="medias__container">
             <div class="--carousel" id="trending-container"></div>
@@ -201,6 +107,7 @@
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>Top rated movies</h2>
+            <button id="see-more" class="seeMore__btn">More</button>
           </div>
           <div class="medias__container">
             <div class="--carousel" id="top-rated"></div>
@@ -210,6 +117,7 @@
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>On air series</h2>
+            <button id="see-more" class="seeMore__btn">More</button>
           </div>
           <div class="medias__container">
             <div class="--carousel" id="on-air"></div>
@@ -219,13 +127,14 @@
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>Top rated series</h2>
+            <button id="see-more" class="seeMore__btn">More</button>
           </div>
           <div class="medias__container">
             <div class="--carousel" id="top-rated-series"></div>
           </div>
         </section>
       </div>
-
+      <section class="" id="fullMediasContainer"></section>
       <section class="categorie--detail" id="category-single-view">
         <div class="categorie__title" id="category-title"></div>
       </section>
@@ -252,25 +161,18 @@
             consequuntur qui nesciunt sapiente illum. Facilis inventore quos
             dolore nemo reprehenderit dolores omnis?
           </p>
-          <div class="media__directors">
-            <p>Director: Name</p>
-          </div>
-          <div class="media__cast">
-            <div class="cast__member">
-              <span>Name</span>
-              <span>Character</span>
+          <div class="media__genres">
+            <div class="media__genre">
+              <span>Action</span>
             </div>
-            <div class="cast__member">
-              <span>Name</span>
-              <span>Character</span>
+            <div class="media__genre">
+              <span>Action</span>
             </div>
-            <div class="cast__member">
-              <span>Name</span>
-              <span>Character</span>
+            <div class="media__genre">
+              <span>Action</span>
             </div>
-            <div class="cast__member">
-              <span>Name</span>
-              <span>Character</span>
+            <div class="media__genre">
+              <span>Action</span>
             </div>
           </div>
         </div>

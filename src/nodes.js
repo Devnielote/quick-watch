@@ -3,6 +3,7 @@ const topNavContainer = document.querySelector('#top-nav-container');
 
 //Header section
 const headerContainer = document.querySelector('#movie-header');
+const backBtn = document.querySelector('back-btn');
 
 //Home sections
 const homeSections = document.querySelector('#home-section__container');
@@ -10,6 +11,7 @@ const homeSections = document.querySelector('#home-section__container');
 //Generic category list section
 const mobileCategorySection = document.querySelector('#categories-container');
 const dekstopCategorySection = document.querySelector('#desktop-categories-container');
+const seeMoreBtn = document.querySelector('#see-more');
 
 // Generic single category view
 const singleCategoryView = document.querySelector('#category-single-view');
