@@ -3,7 +3,7 @@ const topNavContainer = document.querySelector('#top-nav-container');
 
 //Header section
 const headerContainer = document.querySelector('#movie-header');
-const backBtn = document.querySelector('back-btn');
+const backBtn = document.querySelector('#back-btn');
 
 //Home sections
 const homeSections = document.querySelector('#home-section__container');
@@ -20,6 +20,7 @@ const singleCategoryMediaPreview = document.querySelector('#movie-preview-contai
 
 //Generic single media details
 const singleMediaView = document.querySelector('#media-details-container');
+const relatedMediasContainer = document.querySelector('#related-medias-container');
 
 //Search bar container
 const searchBarSection = document.querySelector('#search-bar-container')

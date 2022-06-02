@@ -2,6 +2,10 @@ searchBtn.addEventListener('click', () => {
     location.hash = `search=${searchFormInput.value.trim()}`
 });
 
+backBtn.addEventListener('click', () => {
+    location.hash = '';
+})
+
 window.addEventListener('DOMContentLoaded', navigator);
 window.addEventListener('hashchange', navigator);
 
@@ -39,6 +43,7 @@ function homePage(){
     resultsContainer.classList.add('disabled');
     singleCategoryView.classList.add('disabled');
     singleMediaView.classList.add('disabled');
+    relatedMediasContainer.classList.add('disabled');
     getCategories();
     getAsideCategories();
     getNowPlayingMoviePreview();
@@ -58,6 +63,7 @@ function searchPageResults(){
     singleMediaView.classList.add('disabled');
     homeSections.classList.add('disabled');
     resultsContainer.classList.remove('disabled');
+    relatedMediasContainer.classList.add('disabled');
 
     const [_, query] = location.hash.split('=');
     getMoviesBySearch(query);
@@ -76,6 +82,7 @@ function singleCategoryPage(){
     singleCategoryMediaPreview.classList.add('disabled');
     singleMediaView.classList.add('disabled');
     homeSections.classList.add('disabled');
+    relatedMediasContainer.classList.add('disabled');
 
     const [_, categoryData] = location.hash.split('=');
     const [categoryId, categoryName] = categoryData.split('-');
@@ -103,7 +110,7 @@ function singleMediaDetails(){
     singleCategoryView.classList.add('disabled');
     singleMediaView.classList.remove('disabled');
     homeSections.classList.add('disabled');
-
+    relatedMediasContainer.classList.remove('disabled');
     const [_, movieId] = location.hash.split('=');
     // getMovie(movieId);
 }
@@ -120,5 +127,4 @@ function fullMediasPage(){
     singleCategoryMediaPreview.classList.add('disabled');
     singleMediaView.classList.add('disabled');
     homeSections.classList.remove('disabled');
-    getFullMedias();
 }

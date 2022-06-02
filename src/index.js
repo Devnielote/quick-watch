@@ -11,13 +11,19 @@ const api = axios.create({
 async function getNowPlayingMoviePreview() {
     const trendingContainer = document.querySelector('#trending-container');
     trendingContainer.innerHTML = "";
-    const { data } = await api('movie/now_playing');
+    const { data } = await api('movie/now_playing',
+    {
+        params: {
+            region: 'US'
+        }
+    });
     
         const movie = data.results;
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.addEventListener('click', () => {
                 location.hash = `movie=${movie.id}`;
+                getMoviebById(movie.id);
             });
 
             trendingMovie.classList = 'this-month__movie'
@@ -52,13 +58,20 @@ async function getNowPlayingMoviePreview() {
 async function getTopRatedMoviesPreview() {
     const topRatedContainer = document.querySelector('#top-rated');
     topRatedContainer.innerHTML = "";
-    const {data} = await api('movie/top_rated');
+    const { data } = await api('movie/top_rated',
+    {
+        params: {
+            region: 'US',
+            page: 2,
+        }
+    });
    
         const movie = data.results;
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.addEventListener('click', () => {
                 location.hash = `movie=${movie.id}`;
+                getMoviebById(movie.id);
             });
             trendingMovie.classList = 'this-month__movie';
             trendingMovie.id = 'single-media-container';
@@ -92,13 +105,14 @@ async function getTopRatedMoviesPreview() {
 async function getOnAirSeriesPreview() {
     const topRatedContainer = document.querySelector('#on-air');
     topRatedContainer.innerHTML = "";
-    const {data} = await api('tv/on_the_air');
+    const {data} = await api('tv/popular');
 
         const movie = data.results;
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.addEventListener('click', () => {
                 location.hash = `movie=${movie.id}`;
+                getSerieById(movie.id);
             });
             trendingMovie.classList = 'this-month__movie'
             trendingMovie.id = 'single-media-container';
@@ -131,13 +145,19 @@ async function getOnAirSeriesPreview() {
 async function getTopRatedSeriesPreview() {
     const topRatedContainer = document.querySelector('#top-rated-series');
     topRatedContainer.innerHTML = "";
-    const {data} = await api('tv/top_rated');
+    const {data} = await api('tv/top_rated',
+    {
+        params: {
+            page: 2,
+        }
+    });
 
         const movie = data.results;
         const generateMovie = movie.forEach(movie => {
             const trendingMovie = document.createElement('div');
             trendingMovie.addEventListener('click', () => {
                 location.hash = `movie=${movie.id}`;
+                getSerieById(movie.id);
             });
             trendingMovie.classList = 'this-month__movie'
             trendingMovie.id = 'single-media-container';
@@ -219,6 +239,10 @@ async function getMoviesByCategory(id){
     movies.forEach(movie => {
         const div = document.createElement('div');
         div.classList = 'categorie-movie__preview';
+        div.addEventListener('click', () => {
+            location.hash = `movie=${movie.id}`;
+            getMoviebById(movie.id);
+        });
         const mediaImg = document.createElement('img');
         mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
         const mediaInfo = document.createElement('div');
@@ -251,6 +275,10 @@ async function getMoviesBySearch(query){
     movies.forEach(movie => {
         const div = document.createElement('div');
         div.classList = 'categorie-movie__preview';
+        div.addEventListener('click', () => {
+            location.hash = `movie=${movie.id}`;
+            getMoviebById(movie.id);
+        })
         const mediaImg = document.createElement('img');
         mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
         const mediaInfo = document.createElement('div');
@@ -270,9 +298,6 @@ async function getMoviesBySearch(query){
 
 async function getMoviebById(movieId){
     const { data } = await api(`movie/${movieId}`);
-    const { related } = await api(`movie/${movieId}/similar`);
-    console.log(related);
-    console.log(data);
     singleMediaView.innerHTML = '';
     const generateMovieDetails = 
         headerContainer.style.backgroundImage = `url(${API_IMAGE_REQUEST(data.poster_path)})`;
@@ -311,7 +336,102 @@ async function getMoviebById(movieId){
             mediaGenre.append(span);
             mediaGenres.append(mediaGenre);
         });
+
+        getSimilarMovies(data.id);
         mediaInfoContainer.append(mediaDescription,mediaGenres);
         singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
     
 };
+
+async function getSerieById(serieId){
+    const { data } = await api(`/tv/${serieId}`);
+    singleMediaView.innerHTML = '';
+    console.log(data);
+    const generateMovieDetails = 
+        headerContainer.style.backgroundImage = `url(${API_IMAGE_REQUEST(data.poster_path)})`;
+        const mediaTitleContainer = document.createElement('div');
+        mediaTitleContainer.className = 'media__title';
+        const mediaTitle = document.createElement('p');
+        const p = document.createTextNode(`${data.name}`);
+        mediaTitle.append(p);
+        const videoInfo = document.createElement('div');
+        videoInfo.classList.add('video__info--noMargin');
+        const movieRating = document.createElement('div');
+        movieRating.className = 'movie_rating';
+        const starImg = document.createElement('img');
+        starImg.src = './styles/assets/start-flaticon.png';
+        starImg.style.width = '20px';
+        const span = document.createElement('span');
+        const rating = document.createTextNode(`${data.vote_average}`);
+        span.append(rating);
+        movieRating.append(starImg,span)
+        videoInfo.append(movieRating)
+        mediaTitleContainer.append(mediaTitle,videoInfo);
+
+        const mediaInfoContainer = document.createElement('div');
+        mediaInfoContainer.className = 'media__info';
+        const mediaDescription = document.createElement('p');
+        const descriptionText = document.createTextNode(`${data.overview}`);
+        mediaDescription.append(descriptionText);
+        const mediaGenres = document.createElement('div');
+        mediaGenres.className = 'media__genres';
+        data.genres.forEach(genre => {
+            const mediaGenre = document.createElement('div');
+            mediaGenre.className = 'media__genre';
+            const span = document.createElement('span');
+            const text = document.createTextNode(`${genre.name}`);
+            span.append(text);
+            mediaGenre.append(span);
+            mediaGenres.append(mediaGenre);
+        });
+
+        getSimilarSeries(data.id);
+        mediaInfoContainer.append(mediaDescription,mediaGenres);
+        singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
+}
+
+async function getSimilarMovies(movieId){
+    const { data } = await api(`movie/${movieId}/similar`);
+    console.log( data );
+    relatedMediasContainer.innerHTML = '';
+    const span = document.createElement('span');
+    const spanText = document.createTextNode('Related to this');
+    span.appendChild(spanText);
+    const div = document.createElement('div');
+    div.className = '--carousel';
+    relatedMediasContainer.append(span,div);
+    data.results.forEach(media => {
+        const mediaContainer = document.createElement('div');
+        mediaContainer.className = 'this-month__movie';
+        mediaContainer.addEventListener('click', () => {
+            location.hash = `movie=${media.id}`;
+            getMoviebById(media.id);
+        })
+        const mediaImg = document.createElement('img');
+        mediaImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`
+        mediaContainer.appendChild(mediaImg);
+        div.append(mediaContainer);
+    })
+    
+}
+
+async function getSimilarSeries(movieId){
+    const { data } = await api(`tv/${movieId}/similar`);
+    console.log( data );
+    relatedMediasContainer.innerHTML = '';
+    const span = document.createElement('span');
+    const spanText = document.createTextNode('Related to this');
+    span.appendChild(spanText);
+    const div = document.createElement('div');
+    div.className = '--carousel';
+    relatedMediasContainer.append(span,div);
+    data.results.forEach(media => {
+        const mediaContainer = document.createElement('div');
+        mediaContainer.className = 'this-month__movie';
+        const mediaImg = document.createElement('img');
+        mediaImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`
+        mediaContainer.appendChild(mediaImg);
+        div.append(mediaContainer);
+    })
+
+}
