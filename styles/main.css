@@ -153,7 +153,6 @@ nav ul {
     height: 50vh;
     max-height: 70vh;
     margin: 0 auto;
-    background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Ffd%2Fb4%2F41%2Ffdb44148ad1be4b980211623d2b8d997.jpg&f=1&nofb=1');
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -284,6 +283,10 @@ nav ul {
 .carousel__controls {
     width: 100%;
     text-align: center;
+}
+
+.relatedMovies span {
+    padding-left: 1rem;
 }
 
 footer {
