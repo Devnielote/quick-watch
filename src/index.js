@@ -8,6 +8,17 @@ const api = axios.create({
     }
 });
 
+
+//Utils
+const lazyLoader = new IntersectionObserver((entries) => {
+    entries.forEach((entrie) => {
+        if(entrie.isIntersecting){
+            const url = entrie.target.getAttribute('data-imgurl');
+            entrie.target.setAttribute('src', url );
+        }
+    });
+});
+
 async function getNowPlayingMoviePreview() {
     const trendingContainer = document.querySelector('#trending-container');
     trendingContainer.innerHTML = "";
@@ -29,8 +40,16 @@ async function getNowPlayingMoviePreview() {
             trendingMovie.classList = 'this-month__movie'
             trendingMovie.id = 'single-media-container';
             const movieImg = document.createElement('img');
-            movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            movieImg.alt = `${movie.title}`
+            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+            // movieImg.alt = `${movie.title}`;
+            movieImg.setAttribute('alt', movie.title);
+            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+            movieImg.addEventListener('error', () => {
+                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+            lazyLoader.observe(movieImg);
+
             const infoContainer = document.createElement('div');
             infoContainer.classList = 'video__info'
             const infoName = document.createElement('div');
@@ -76,8 +95,16 @@ async function getTopRatedMoviesPreview() {
             trendingMovie.classList = 'this-month__movie';
             trendingMovie.id = 'single-media-container';
             const movieImg = document.createElement('img');
-            movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            movieImg.alt = `${movie.title}`
+            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+            // movieImg.alt = `${movie.title}`
+            movieImg.setAttribute('alt', movie.title);
+            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+            movieImg.addEventListener('error', () => {
+                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+            lazyLoader.observe(movieImg);
+
             const infoContainer = document.createElement('div');
             infoContainer.classList = 'video__info'
             const infoName = document.createElement('div');
@@ -117,8 +144,16 @@ async function getOnAirSeriesPreview() {
             trendingMovie.classList = 'this-month__movie'
             trendingMovie.id = 'single-media-container';
             const movieImg = document.createElement('img');
-            movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            movieImg.alt = `${movie.title}`
+            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+            // movieImg.alt = `${movie.title}`
+            movieImg.setAttribute('alt', movie.title);
+            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+            movieImg.addEventListener('error', () => {
+                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+            lazyLoader.observe(movieImg);
+
             const infoContainer = document.createElement('div');
             infoContainer.classList = 'video__info'
             const infoName = document.createElement('div');
@@ -162,8 +197,16 @@ async function getTopRatedSeriesPreview() {
             trendingMovie.classList = 'this-month__movie'
             trendingMovie.id = 'single-media-container';
             const movieImg = document.createElement('img');
-            movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            movieImg.alt = `${movie.title}`
+            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+            // movieImg.alt = `${movie.title}`
+            movieImg.setAttribute('alt', movie.title);
+            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+            movieImg.addEventListener('error', () => {
+                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+            lazyLoader.observe(movieImg);
+
             const infoContainer = document.createElement('div');
             infoContainer.classList = 'video__info'
             const infoName = document.createElement('div');
@@ -244,7 +287,14 @@ async function getMoviesByCategory(id){
             getMoviebById(movie.id);
         });
         const mediaImg = document.createElement('img');
-        mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+        // mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+        mediaImg.setAttribute('alt', movie.title);
+        mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+        mediaImg.addEventListener('error', () => {
+            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+        lazyLoader.observe(mediaImg);
         const mediaInfo = document.createElement('div');
         mediaInfo.classList = 'video__info';
         const mediaName = document.createElement('div');
@@ -280,7 +330,15 @@ async function getMoviesBySearch(query){
             getMoviebById(movie.id);
         })
         const mediaImg = document.createElement('img');
-        mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+        // mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+        mediaImg.setAttribute('alt', movie.title);
+        mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+        mediaImg.addEventListener('error', () => {
+            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+        lazyLoader.observe(mediaImg);
+        
         const mediaInfo = document.createElement('div');
         mediaInfo.classList = 'video__info';
         const mediaName = document.createElement('div');
@@ -408,7 +466,14 @@ async function getSimilarMovies(movieId){
             getMoviebById(media.id);
         })
         const mediaImg = document.createElement('img');
-        mediaImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`
+        // mediaImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`
+        mediaImg.setAttribute('alt', media.title);
+        mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(media.poster_path));
+        mediaImg.addEventListener('error', () => {
+            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+
+        lazyLoader.observe(mediaImg);
         mediaContainer.appendChild(mediaImg);
         div.append(mediaContainer);
     })
