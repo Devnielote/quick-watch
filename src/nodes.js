@@ -7,10 +7,14 @@ const backBtn = document.querySelector('#back-btn');
 
 //Home sections
 const homeSections = document.querySelector('#home-section__container');
+const nowPlayingMoviesContainer = document.querySelector('#nowPlayingMovies-container');
+const topRatedMoviesContainer = document.querySelector('#topRatedMovies-container');
+const onAirSeriesContainer = document.querySelector('#onAirSeries-container');
+const topRatedSeriesContainer = document.querySelector('#topRatedSeries-container');
 
 //Generic category list section
-const mobileCategorySection = document.querySelector('#categories-container');
-const dekstopCategorySection = document.querySelector('#desktop-categories-container');
+const mobileCategoriesContainer = document.querySelector('#mobileCategories-container');
+const desktopCategoriesContainer = document.querySelector('#desktopCategories-container');
 const seeMoreBtn = document.querySelector('#see-more');
 
 // Generic single category view

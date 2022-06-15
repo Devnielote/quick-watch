@@ -8,7 +8,6 @@ const api = axios.create({
     }
 });
 
-
 //Utils
 const lazyLoader = new IntersectionObserver((entries) => {
     entries.forEach((entrie) => {
@@ -19,263 +18,156 @@ const lazyLoader = new IntersectionObserver((entries) => {
     });
 });
 
-async function getNowPlayingMoviePreview() {
-    const trendingContainer = document.querySelector('#trending-container');
-    trendingContainer.innerHTML = "";
+//Sections generators
+function createGenre(genres,container) {
+
+    container.innerHTML = '';
+    
+    genres.forEach(genre => {
+        const li = document.createElement('li');
+        li.classList = 'categorie';
+        const a = document.createElement('a');
+        const genreName = document.createTextNode(`${genre.name}`);
+        a.addEventListener('click', () => {
+            location.hash = `#category=${genre.id}-${genre.name}`
+        })
+        a.append(genreName);
+        li.append(a);
+        container.append(li);
+    })
+}
+
+function createMedias(medias, container, {lazyLoad = false, clean = false} = {}){
+
+    if(clean) {
+        container.innerHTML = '';
+    };
+    
+    medias.forEach(media => {
+        const mediaContainer = document.createElement('div');
+        mediaContainer.addEventListener('click', () => {
+            location.hash = `movie=${media.id}`;
+            getMoviebById(media.id);
+        });
+        mediaContainer.classList = 'genericMedia__container'    //'this-month__movie'
+        mediaContainer.id = 'single-media-container';
+        const mediaImg = document.createElement('img');
+        // movieImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`;
+        // movieImg.alt = `${media.title}`;
+        mediaImg.setAttribute('alt', media.title);
+        mediaImg.setAttribute(
+            lazyLoad ? 'data-imgUrl': 'src',
+            API_IMAGE_REQUEST(media.poster_path));
+
+        mediaImg.addEventListener('error', () => {
+            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+        });
+
+        if(lazyLoad){
+            lazyLoader.observe(mediaImg);
+        }
+    
+        const infoContainer = document.createElement('div');
+        infoContainer.classList = 'video__info'
+        const infoName = document.createElement('div');
+        infoName.classList = 'media__name'
+        const textContainer = document.createElement('p');
+        let nameText;
+        if(media.title){
+            nameText = document.createTextNode(`${media.title}`);
+        } else {
+            nameText = document.createTextNode(`${media.name}`)
+        }
+        textContainer.append(nameText);
+        infoName.append(textContainer);
+        const ratingContainer = document.createElement('div');
+        const starIcon = document.createElement('img');
+        starIcon.src = './styles/assets/start-flaticon.png';
+        starIcon.style.width = '20px';
+        const rating = document.createElement('span');
+        const ratingNumbers = document.createTextNode(`${media.vote_average}`);
+        rating.append(ratingNumbers);
+        ratingContainer.append(starIcon,rating);
+        infoContainer.append(infoName,ratingContainer);
+        mediaContainer.append(mediaImg,infoContainer);
+        container.append(mediaContainer);
+    })
+};
+
+//API calls
+
+async function getNowPlayingMoviesPreview() {
     const { data } = await api('movie/now_playing',
     {
         params: {
-            region: 'US'
+            region: 'US',
+            page,
         }
     });
     
-        const movie = data.results;
-        const generateMovie = movie.forEach(movie => {
-            const trendingMovie = document.createElement('div');
-            trendingMovie.addEventListener('click', () => {
-                location.hash = `movie=${movie.id}`;
-                getMoviebById(movie.id);
-            });
-
-            trendingMovie.classList = 'this-month__movie'
-            trendingMovie.id = 'single-media-container';
-            const movieImg = document.createElement('img');
-            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            // movieImg.alt = `${movie.title}`;
-            movieImg.setAttribute('alt', movie.title);
-            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-            movieImg.addEventListener('error', () => {
-                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
-
-            lazyLoader.observe(movieImg);
-
-            const infoContainer = document.createElement('div');
-            infoContainer.classList = 'video__info'
-            const infoName = document.createElement('div');
-            infoName.classList = 'movie__name'
-            const textContainer = document.createElement('p');
-            const nameText = document.createTextNode(`${movie.title}`);
-            textContainer.append(nameText);
-            infoName.append(textContainer);
-            const ratingContainer = document.createElement('div');
-            ratingContainer.classList = 'movie_rating';
-            const starIcon = document.createElement('img');
-            starIcon.src = './styles/assets/start-flaticon.png';
-            starIcon.style.width = '20px';
-            const rating = document.createElement('span');
-            const ratingNumbers = document.createTextNode(`${movie.vote_average}`);
-            rating.append(ratingNumbers);
-            ratingContainer.append(starIcon,rating);
-            infoContainer.append(infoName,ratingContainer);
-            trendingMovie.append(movieImg,infoContainer);
-            trendingContainer.append(trendingMovie);
-        });
+        const movies = data.results;
+        createMedias(movies,nowPlayingMoviesContainer, {lazyLoad:true, clean:true} );
     
 }
 
 async function getTopRatedMoviesPreview() {
-    const topRatedContainer = document.querySelector('#top-rated');
-    topRatedContainer.innerHTML = "";
     const { data } = await api('movie/top_rated',
     {
         params: {
             region: 'US',
-            page: 2,
+            page,
         }
     });
    
-        const movie = data.results;
-        const generateMovie = movie.forEach(movie => {
-            const trendingMovie = document.createElement('div');
-            trendingMovie.addEventListener('click', () => {
-                location.hash = `movie=${movie.id}`;
-                getMoviebById(movie.id);
-            });
-            trendingMovie.classList = 'this-month__movie';
-            trendingMovie.id = 'single-media-container';
-            const movieImg = document.createElement('img');
-            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            // movieImg.alt = `${movie.title}`
-            movieImg.setAttribute('alt', movie.title);
-            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-            movieImg.addEventListener('error', () => {
-                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
-
-            lazyLoader.observe(movieImg);
-
-            const infoContainer = document.createElement('div');
-            infoContainer.classList = 'video__info'
-            const infoName = document.createElement('div');
-            infoName.classList = 'movie__name'
-            const textContainer = document.createElement('p');
-            const nameText = document.createTextNode(`${movie.title}`);
-            textContainer.append(nameText);
-            infoName.append(textContainer);
-            const ratingContainer = document.createElement('div');
-            ratingContainer.classList = 'movie_rating';
-            const starIcon = document.createElement('img');
-            starIcon.src = './styles/assets/start-flaticon.png';
-            starIcon.style.width = '20px';
-            const rating = document.createElement('span');
-            const ratingNumbers = document.createTextNode(`${movie.vote_average}`);
-            rating.append(ratingNumbers);
-            ratingContainer.append(starIcon,rating);
-            infoContainer.append(infoName,ratingContainer);
-            trendingMovie.append(movieImg,infoContainer);
-            topRatedContainer.append(trendingMovie);
-        });
+        const movies = data.results;
+        createMedias(movies,topRatedMoviesContainer,{lazyLoad:true, clean:true});
     
 }
 
 async function getOnAirSeriesPreview() {
-    const topRatedContainer = document.querySelector('#on-air');
-    topRatedContainer.innerHTML = "";
     const {data} = await api('tv/popular');
 
-        const movie = data.results;
-        const generateMovie = movie.forEach(movie => {
-            const trendingMovie = document.createElement('div');
-            trendingMovie.addEventListener('click', () => {
-                location.hash = `movie=${movie.id}`;
-                getSerieById(movie.id);
-            });
-            trendingMovie.classList = 'this-month__movie'
-            trendingMovie.id = 'single-media-container';
-            const movieImg = document.createElement('img');
-            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            // movieImg.alt = `${movie.title}`
-            movieImg.setAttribute('alt', movie.title);
-            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-            movieImg.addEventListener('error', () => {
-                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
-
-            lazyLoader.observe(movieImg);
-
-            const infoContainer = document.createElement('div');
-            infoContainer.classList = 'video__info'
-            const infoName = document.createElement('div');
-            infoName.classList = 'movie__name'
-            const textContainer = document.createElement('p');
-            const nameText = document.createTextNode(`${movie.name}`);
-            textContainer.append(nameText);
-            infoName.append(textContainer);
-            const ratingContainer = document.createElement('div');
-            ratingContainer.classList = 'movie_rating';
-            const starIcon = document.createElement('img');
-            starIcon.src = './styles/assets/start-flaticon.png';
-            starIcon.style.width = '20px';
-            const rating = document.createElement('span');
-            const ratingNumbers = document.createTextNode(`${movie.vote_average}`);
-            rating.append(ratingNumbers);
-            ratingContainer.append(starIcon,rating);
-            infoContainer.append(infoName,ratingContainer);
-            trendingMovie.append(movieImg,infoContainer);
-            topRatedContainer.append(trendingMovie);
-        });
+        const series = data.results;
+        createMedias(series,onAirSeriesContainer,{lazyLoad:true, clean:true});
 }
 
 async function getTopRatedSeriesPreview() {
-    const topRatedContainer = document.querySelector('#top-rated-series');
-    topRatedContainer.innerHTML = "";
     const {data} = await api('tv/top_rated',
     {
         params: {
-            page: 2,
+            region: 'US',
+            page,
         }
     });
 
-        const movie = data.results;
-        const generateMovie = movie.forEach(movie => {
-            const trendingMovie = document.createElement('div');
-            trendingMovie.addEventListener('click', () => {
-                location.hash = `movie=${movie.id}`;
-                getSerieById(movie.id);
-            });
-            trendingMovie.classList = 'this-month__movie'
-            trendingMovie.id = 'single-media-container';
-            const movieImg = document.createElement('img');
-            // movieImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-            // movieImg.alt = `${movie.title}`
-            movieImg.setAttribute('alt', movie.title);
-            movieImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-            movieImg.addEventListener('error', () => {
-                movieImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
-
-            lazyLoader.observe(movieImg);
-
-            const infoContainer = document.createElement('div');
-            infoContainer.classList = 'video__info'
-            const infoName = document.createElement('div');
-            infoName.classList = 'movie__name'
-            const textContainer = document.createElement('p');
-            const nameText = document.createTextNode(`${movie.name}`);
-            textContainer.append(nameText);
-            infoName.append(textContainer);
-            const ratingContainer = document.createElement('div');
-            ratingContainer.classList = 'movie_rating';
-            const starIcon = document.createElement('img');
-            starIcon.src = './styles/assets/start-flaticon.png';
-            starIcon.style.width = '20px';
-            const rating = document.createElement('span');
-            const ratingNumbers = document.createTextNode(`${movie.vote_average}`);
-            rating.append(ratingNumbers);
-            ratingContainer.append(starIcon,rating);
-            infoContainer.append(infoName,ratingContainer);
-            trendingMovie.append(movieImg,infoContainer);
-            topRatedContainer.append(trendingMovie);
-        });
+        const series = data.results;
+        createMedias(series,topRatedSeriesContainer,{lazyLoad:true, clean:true});
 }
 
 async function getCategories() {
-    const categoriesContainer = document.querySelector('#categorie-list-container');
-    categoriesContainer.innerHTML = "";
     const {data} = await api('genre/movie/list');
 
         const genres = data.genres;
-        const generateMovie = genres.forEach(genre => {
-            const li = document.createElement('li');
-            li.classList = 'categorie';
-            const a = document.createElement('a');
-            const genreName = document.createTextNode(`${genre.name}`);
-            a.addEventListener('click', () => {
-                location.hash = `#category=${genre.id}-${genre.name}`
-            })
-            a.append(genreName);
-            li.append(a);
-            categoriesContainer.append(li);
-        });
+        createGenre(genres,mobileCategoriesContainer)
 }
 
 async function getAsideCategories() {
-    const asideContainer = document.querySelector('#aside-categories');
-    asideContainer.innerHTML = "";
     const {data} = await api('genre/movie/list');
 
         const genres = data.genres;
-        const generateMovie = genres.forEach(genre => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.addEventListener('click', () => {
-                location.hash = `#category=${genre.id}-${genre.name}`
-            })
-            const genreName = document.createTextNode(`${genre.name}`);
-            a.append(genreName);
-            li.append(a);
-            asideContainer.append(li);
-        });
+        createGenre(genres,desktopCategoriesContainer);
 };
 
 async function getMoviesByCategory(id){
-    singleCategoryView.innerHTML = "";
     const createContainer = document.createElement('div');
     createContainer.classList = 'movie-preview__container';
+
+    singleCategoryView.innerHTML = '';
+
     const { data } = await api(`discover/movie`,{
         params: {
             with_genres: id,
+            page,
         },
     });
     const movies = data.results;
@@ -294,7 +186,8 @@ async function getMoviesByCategory(id){
             mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
             });
 
-        lazyLoader.observe(mediaImg);
+            lazyLoader.observe(mediaImg);
+        
         const mediaInfo = document.createElement('div');
         mediaInfo.classList = 'video__info';
         const mediaName = document.createElement('div');
@@ -308,6 +201,12 @@ async function getMoviesByCategory(id){
         createContainer.append(div);
     })
     singleCategoryView.append(createContainer);
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'btnContainer';
+    const btnLoadMore = document.createElement('button');
+    btnLoadMore.innerText = 'Load more';
+    btnContainer.appendChild(btnLoadMore)
+    singleCategoryView.append(btnContainer);
 };
 
 async function getMoviesBySearch(query){
@@ -449,7 +348,7 @@ async function getSerieById(serieId){
 }
 
 async function getSimilarMovies(movieId){
-    const { data } = await api(`movie/${movieId}/similar`);
+    const { data } = await api(`movie/${movieId}/recommendations`);
     console.log( data );
     relatedMediasContainer.innerHTML = '';
     const span = document.createElement('span');

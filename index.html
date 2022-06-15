@@ -48,17 +48,15 @@
         </ul>
       </div>
     </nav>
-    <aside id="desktop-categories-container">
+    <aside id="desktopCategories__container">
       <div class="aside__menu">
         <span>Categories</span>
-        <ul id="aside-categories"></ul>
+        <ul id="desktopCategories-container"></ul>
       </div>
     </aside>
     <div class="main" id="main-container">
-      <section id="categories-container">
-        <div class="categories__container">
-          <ul class="categories" id="categorie-list-container"></ul>
-        </div>
+      <section class="mobileCategories__container">
+        <ul class="mobileCategories" id="mobileCategories-container"></ul>
       </section>
       <section id="search-bar-container" class="view__header">
         <section class="search__container" id="search-container">
@@ -95,11 +93,10 @@
       <div class="generic-sections-container" id="home-section__container">
         <section class="generic__section" id="generic-section">
           <div class="title__container">
-            <h2>Now playing</h2>
+            <h2>Now playing movies</h2>
           </div>
-          <div class="medias__container">
-            <div class="--carousel" id="trending-container"></div>
-          </div>
+          <div class="--carousel" id="nowPlayingMovies-container"></div>
+
           <!-- <div class="carousel__controls">⚫⚫⚫⚫</div> -->
         </section>
 
@@ -107,30 +104,24 @@
           <div class="title__container">
             <h2>Top rated movies</h2>
           </div>
-          <div class="medias__container">
-            <div class="--carousel" id="top-rated"></div>
-          </div>
+          <div class="--carousel" id="topRatedMovies-container"></div>
         </section>
 
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>On air series</h2>
           </div>
-          <div class="medias__container">
-            <div class="--carousel" id="on-air"></div>
-          </div>
+          <div class="--carousel" id="onAirSeries-container"></div>
         </section>
 
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>Top rated series</h2>
           </div>
-          <div class="medias__container">
-            <div class="--carousel" id="top-rated-series"></div>
-          </div>
+          <div class="--carousel" id="topRatedSeries-container"></div>
         </section>
       </div>
-      <section class="" id="fullMediasContainer"></section>
+      <!-- <section class="" id="fullMediasContainer"></section> -->
       <section class="categorie--detail" id="category-single-view">
         <div class="categorie__title" id="category-title"></div>
       </section>
