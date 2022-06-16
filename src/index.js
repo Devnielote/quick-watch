@@ -28,7 +28,7 @@ function createGenre(genres,container) {
         li.classList = 'categorie';
         const a = document.createElement('a');
         const genreName = document.createTextNode(`${genre.name}`);
-        a.addEventListener('click', () => {
+        li.addEventListener('click', () => {
             location.hash = `#category=${genre.id}-${genre.name}`
         })
         a.append(genreName);
@@ -47,10 +47,10 @@ function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clea
         const mediaContainer = document.createElement('div');
         mediaContainer.addEventListener('click', () => {
             if(mediaTypeMovie){
-                location.hash = `movie=${media.id}`;
+                location.hash = `#movie=${media.id}`;
                 getMoviebById(media.id);
             } else {
-                location.hash = `movie=${media.id}`
+                location.hash = `#serie=${media.id}`
                 getSerieById(media.id);
             }
         });
@@ -182,7 +182,20 @@ async function getMoviesByCategory(id){
 };
 
 
-//API calls
+//API calls for home section
+async function getCategories() {
+    const {data} = await api('genre/movie/list');
+
+        const genres = data.genres;
+        createGenre(genres,mobileCategoriesContainer)
+}
+
+async function getAsideCategories() {
+    const {data} = await api('genre/movie/list');
+
+        const genres = data.genres;
+        createGenre(genres,desktopCategoriesContainer);
+};
 
 async function getNowPlayingMoviesPreview() {
     const { data } = await api('movie/now_playing',
@@ -219,6 +232,8 @@ async function getOnAirSeriesPreview() {
 }
 
 async function getTopRatedSeriesPreview() {
+
+
     const {data} = await api('tv/top_rated',
     {
         params: {
@@ -231,20 +246,55 @@ async function getTopRatedSeriesPreview() {
         createMedias(series,topRatedSeriesContainer,false,{lazyLoad:true, clean:true});
 }
 
-async function getCategories() {
-    const {data} = await api('genre/movie/list');
+//API calls for full page section
 
-        const genres = data.genres;
-        createGenre(genres,mobileCategoriesContainer)
+async function getNowPlayingMoviesFullPage() {
+    const { data } = await api('movie/now_playing',
+    {
+        params: {
+            region: 'US',
+            page,
+        }
+    });
+    
+        const movies = data.results;
+        createFullPageMedias(movies,fullMediaPageContainer,true, {lazyLoad:true, clean:true} );
 }
 
-async function getAsideCategories() {
-    const {data} = await api('genre/movie/list');
+async function getTopRatedMoviesFullPage() {
+    const { data } = await api('movie/top_rated',
+    {
+        params: {
+            region: 'US',
+            page,
+        }
+    });
+   
+        const movies = data.results;
+        createMedias(movies,fullMediaPageContainer,true,{lazyLoad:true, clean:true});
+}
 
-        const genres = data.genres;
-        createGenre(genres,desktopCategoriesContainer);
-};
+async function getOnAirSeriesFullPage() {
+    const {data} = await api('tv/popular');
 
+        const series = data.results;
+        createMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
+}
+
+async function getTopRatedSeriesFullPage() {
+    const {data} = await api('tv/top_rated',
+    {
+        params: {
+            region: 'US',
+            page,
+        }
+    });
+
+        const series = data.results;
+        createFullPageMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
+}
+
+//TODO: Buscador para series y peliculas
 async function getMoviesBySearch(query){
     resultsContainer.innerHTML = "";
     const createContainer = document.createElement('div');
@@ -259,6 +309,8 @@ async function getMoviesBySearch(query){
     const movies = data.results;
     createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad:true,clean:true})
 }
+
+//Api calls for single media detail 
 
 async function getMoviebById(movieId){
     const { data } = await api(`movie/${movieId}`);
@@ -352,7 +404,7 @@ async function getSerieById(movieId){
         getSimilarSeries(data.id);
         mediaInfoContainer.append(mediaDescription,mediaGenres);
         singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
-}
+};
 
 async function getSimilarMovies(movieId){
     const { data } = await api(`movie/${movieId}/recommendations`);
@@ -384,7 +436,7 @@ async function getSimilarMovies(movieId){
         div.append(mediaContainer);
     })
     
-}
+};
 
 async function getSimilarSeries(movieId){
     const { data } = await api(`tv/${movieId}/similar`);
@@ -405,4 +457,6 @@ async function getSimilarSeries(movieId){
         div.append(mediaContainer);
     })
 
-}
+};
+
+//TODO: Una única función para generar single media details page con similar medias incluido.

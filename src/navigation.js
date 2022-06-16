@@ -13,6 +13,7 @@ window.addEventListener('hashchange', navigator);
 
 
 function navigator() {
+    searchInput.value = '';
     if (location.hash.startsWith('#movies')) {
         moviesPage();
     } else if (location.hash.startsWith('#search=')){
@@ -24,14 +25,21 @@ function navigator() {
     } else if (location.hash.startsWith('#category=')) {
         singleGenrePage()
     } else if (location.hash.startsWith('#movie=')) {
-        singleMediaDetails()
+        singleMediaDetails(true);
+    } else if(location.hash.startsWith('#serie=')) {
+        singleMediaDetails(false);
     } else if (location.hash.startsWith('#on-air')) {
         onAirPage()
     } else if (location.hash.startsWith('#top-rated-series')) {
         topRatedMoviesPage()
     } else if (location.hash.startsWith('#nowPlayingMovies')) {
-        console.log('Nos playing movies full media page!!')
-        nowPlayingPage();
+        nowPlayingMoviesFullPage();
+    } else if (location.hash.startsWith('#topRatedMovies')) {
+        topRatedMoviesFullPage();
+    } else if (location.hash.startsWith('#onAirSeries')) {
+        onAirSeriesFullPage();
+    } else if(location.hash.startsWith('#topRatedSeries')) {
+        topRatedSeriesFullPage();
     } else {
         homePage()
     }
@@ -109,8 +117,8 @@ function singleGenrePage(){
    
 }
 
-function singleMediaDetails(){
-    // getAsideCategories();
+function singleMediaDetails(mediaTypeMovie){
+    getAsideCategories();
     topNavContainer.classList.add('disabled');
     mobileCategoriesContainer.classList.add('disabled');
     searchBarSection.classList.add('disabled');
@@ -121,26 +129,17 @@ function singleMediaDetails(){
     homeSections.classList.add('disabled');
     relatedMediasContainer.classList.remove('disabled');
     const [_, movieId] = location.hash.split('=');
-    getMoviebById(movieId);
+    if(mediaTypeMovie){
+        getMoviebById(movieId);
+    } else {
+        getSerieById(movieId);
+    }
 }
 
-function fullMediasPage(){
-    getAsideCategories();
-    headerContainer.classList.add('disabled');
-    topNavContainer.classList.remove('disabled');
-    mobileCategoriesContainer.classList.remove('disabled');
-    desktopCategoriesContainer.classList.remove('disabled');
-    searchBarSection.classList.remove('disabled');
-    resultsContainer.classList.add('disabled');
-    singleCategoryView.classList.remove('disabled');
-    singleCategoryMediaPreview.classList.add('disabled');
-    singleMediaView.classList.add('disabled');
-    homeSections.classList.remove('disabled');
-}
-
-function nowPlayingFullPage(){
+function nowPlayingMoviesFullPage() {
     getAsideCategories();
     getCategories();
+    getNowPlayingMoviesFullPage();
     headerContainer.classList.add('disabled');
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
@@ -152,10 +151,75 @@ function nowPlayingFullPage(){
     resultsContainer.classList.remove('disabled');
     relatedMediasContainer.classList.add('disabled');
 
-    const [_, query] = location.hash.split('=');
     fullMediaPageTitleContainer.innerHTML = '';
     const fullMediaPageTitle = document.createElement('h2');
-    const fullMediaPageTitleText = document.createTextNode(`${query}`);
+    const fullMediaPageTitleText = document.createTextNode(`Now playing movies`);
+    fullMediaPageTitle.append(fullMediaPageTitleText);
+    fullMediaPageTitleContainer.append(fullMediaPageTitle);
+}
+
+function topRatedMoviesFullPage() {
+    getAsideCategories();
+    getCategories();
+    getTopRatedMoviesFullPage();
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategoriesContainer.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    singleCategoryView.classList.add('disabled');
+    fullMediaPageSection.classList.remove('disabled');
+    singleMediaView.classList.add('disabled');
+    homeSections.classList.add('disabled');
+    resultsContainer.classList.remove('disabled');
+    relatedMediasContainer.classList.add('disabled');
+
+    fullMediaPageTitleContainer.innerHTML = '';
+    const fullMediaPageTitle = document.createElement('h2');
+    const fullMediaPageTitleText = document.createTextNode(`Top rated movies`);
+    fullMediaPageTitle.append(fullMediaPageTitleText);
+    fullMediaPageTitleContainer.append(fullMediaPageTitle);  
+}
+
+function onAirSeriesFullPage() {
+    getAsideCategories();
+    getCategories();
+    getOnAirSeriesFullPage();
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategoriesContainer.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    singleCategoryView.classList.add('disabled');
+    fullMediaPageSection.classList.remove('disabled');
+    singleMediaView.classList.add('disabled');
+    homeSections.classList.add('disabled');
+    resultsContainer.classList.remove('disabled');
+    relatedMediasContainer.classList.add('disabled');
+
+    fullMediaPageTitleContainer.innerHTML = '';
+    const fullMediaPageTitle = document.createElement('h2');
+    const fullMediaPageTitleText = document.createTextNode(`On air series`);
+    fullMediaPageTitle.append(fullMediaPageTitleText);
+    fullMediaPageTitleContainer.append(fullMediaPageTitle);
+}
+
+function topRatedSeriesFullPage() {
+    getAsideCategories();
+    getCategories();
+    getTopRatedSeriesFullPage();
+    headerContainer.classList.add('disabled');
+    topNavContainer.classList.remove('disabled');
+    mobileCategoriesContainer.classList.remove('disabled');
+    searchBarSection.classList.remove('disabled');
+    singleCategoryView.classList.add('disabled');
+    fullMediaPageSection.classList.remove('disabled');
+    singleMediaView.classList.add('disabled');
+    homeSections.classList.add('disabled');
+    resultsContainer.classList.remove('disabled');
+    relatedMediasContainer.classList.add('disabled');
+
+    fullMediaPageTitleContainer.innerHTML = '';
+    const fullMediaPageTitle = document.createElement('h2');
+    const fullMediaPageTitleText = document.createTextNode(`Top rated series`);
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
 }
