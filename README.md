@@ -6,3 +6,4 @@ This is my second time using a API to render data into the DOM. Feeling more com
 - ![MoviesGIF](https://user-images.githubusercontent.com/69522907/168444264-91467aa6-58a5-47da-8996-d41dff8ef28a.gif)
 - Lazy loading images ✅
 - Some animations would be cool too. 🤔
+- Check it out! https://devnielote.github.io/quick-watch/# 🎞️
