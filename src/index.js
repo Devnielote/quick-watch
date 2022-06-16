@@ -37,7 +37,7 @@ function createGenre(genres,container) {
     })
 }
 
-function createMedias(medias, container, {lazyLoad = false, clean = false} = {}){
+function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clean = false, } = {}){
 
     if(clean) {
         container.innerHTML = '';
@@ -46,14 +46,17 @@ function createMedias(medias, container, {lazyLoad = false, clean = false} = {})
     medias.forEach(media => {
         const mediaContainer = document.createElement('div');
         mediaContainer.addEventListener('click', () => {
-            location.hash = `movie=${media.id}`;
-            getMoviebById(media.id);
+            if(mediaTypeMovie){
+                location.hash = `movie=${media.id}`;
+                getMoviebById(media.id);
+            } else {
+                location.hash = `movie=${media.id}`
+                getSerieById(media.id);
+            }
         });
-        mediaContainer.classList = 'genericMedia__container'    //'this-month__movie'
+        mediaContainer.classList = 'genericMedia__container'
         mediaContainer.id = 'single-media-container';
         const mediaImg = document.createElement('img');
-        // movieImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`;
-        // movieImg.alt = `${media.title}`;
         mediaImg.setAttribute('alt', media.title);
         mediaImg.setAttribute(
             lazyLoad ? 'data-imgUrl': 'src',
@@ -91,8 +94,93 @@ function createMedias(medias, container, {lazyLoad = false, clean = false} = {})
         infoContainer.append(infoName,ratingContainer);
         mediaContainer.append(mediaImg,infoContainer);
         container.append(mediaContainer);
-    })
+    });
 };
+
+function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clean = false, } = {}){
+
+    if(clean) {
+        container.innerHTML = '';
+    };
+
+    medias.forEach(media => {
+        const mediaContainer = document.createElement('div');
+        mediaContainer.addEventListener('click', () => {
+            if(mediaTypeMovie){
+                location.hash = `movie=${media.id}`;
+                getMoviebById(media.id);
+            } else {
+                location.hash = `movie=${media.id}`
+                getSerieById(media.id);
+            }
+        });
+        mediaContainer.classList = 'genericMedia__container'
+        mediaContainer.id = 'single-media-container';
+        const mediaImg = document.createElement('img');
+        mediaImg.setAttribute('alt', media.title);
+        mediaImg.setAttribute(
+            lazyLoad ? 'data-imgUrl': 'src',
+            API_IMAGE_REQUEST(media.poster_path));
+
+        mediaImg.addEventListener('error', () => {
+            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+        });
+
+        if(lazyLoad){
+            lazyLoader.observe(mediaImg);
+        }
+        mediaContainer.append(mediaImg);
+        container.append(mediaContainer);
+    })
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'btnContainer';
+    const btnLoadMore = document.createElement('button');
+    btnLoadMore.innerText = 'Load more';
+    btnContainer.appendChild(btnLoadMore)
+    container.appendChild(btnContainer);
+};
+
+async function getMoviesByCategory(id){
+    const { data } = await api(`discover/movie`,{
+        params: {
+            with_genres: id,
+            page,
+        },
+    });
+    const movies = data.results;
+    // movies.forEach(movie => {
+    //     const div = document.createElement('div');
+    //     div.classList = 'categorie-movie__preview';
+    //     div.addEventListener('click', () => {
+    //         location.hash = `movie=${movie.id}`;
+    //         getMoviebById(movie.id);
+    //     });
+    //     const mediaImg = document.createElement('img');
+    //     // mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
+    //     mediaImg.setAttribute('alt', movie.title);
+    //     mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
+    //     mediaImg.addEventListener('error', () => {
+    //         mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+    //         });
+
+    //         lazyLoader.observe(mediaImg);
+        
+    //     const mediaInfo = document.createElement('div');
+    //     mediaInfo.classList = 'video__info';
+    //     const mediaName = document.createElement('div');
+    //     mediaName.classList = 'movie__name';
+    //     const p = document.createElement('p');
+    //     const text = document.createTextNode(`${movie.original_title}`);
+    //     p.append(text);
+    //     mediaName.append(p);
+    //     mediaInfo.append(mediaName);
+    //     div.append(mediaImg,mediaInfo);
+    //     createContainer.append(div);
+    // })
+    createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad: true, clean: true});
+    // fullMediaPageContainer.append(btnContainer);
+};
+
 
 //API calls
 
@@ -106,8 +194,7 @@ async function getNowPlayingMoviesPreview() {
     });
     
         const movies = data.results;
-        createMedias(movies,nowPlayingMoviesContainer, {lazyLoad:true, clean:true} );
-    
+        createMedias(movies,nowPlayingMoviesContainer,true, {lazyLoad:true, clean:true} );
 }
 
 async function getTopRatedMoviesPreview() {
@@ -120,7 +207,7 @@ async function getTopRatedMoviesPreview() {
     });
    
         const movies = data.results;
-        createMedias(movies,topRatedMoviesContainer,{lazyLoad:true, clean:true});
+        createMedias(movies,topRatedMoviesContainer,true,{lazyLoad:true, clean:true});
     
 }
 
@@ -128,7 +215,7 @@ async function getOnAirSeriesPreview() {
     const {data} = await api('tv/popular');
 
         const series = data.results;
-        createMedias(series,onAirSeriesContainer,{lazyLoad:true, clean:true});
+        createMedias(series,onAirSeriesContainer,false,{lazyLoad:true, clean:true});
 }
 
 async function getTopRatedSeriesPreview() {
@@ -141,7 +228,7 @@ async function getTopRatedSeriesPreview() {
     });
 
         const series = data.results;
-        createMedias(series,topRatedSeriesContainer,{lazyLoad:true, clean:true});
+        createMedias(series,topRatedSeriesContainer,false,{lazyLoad:true, clean:true});
 }
 
 async function getCategories() {
@@ -158,57 +245,6 @@ async function getAsideCategories() {
         createGenre(genres,desktopCategoriesContainer);
 };
 
-async function getMoviesByCategory(id){
-    const createContainer = document.createElement('div');
-    createContainer.classList = 'movie-preview__container';
-
-    singleCategoryView.innerHTML = '';
-
-    const { data } = await api(`discover/movie`,{
-        params: {
-            with_genres: id,
-            page,
-        },
-    });
-    const movies = data.results;
-    movies.forEach(movie => {
-        const div = document.createElement('div');
-        div.classList = 'categorie-movie__preview';
-        div.addEventListener('click', () => {
-            location.hash = `movie=${movie.id}`;
-            getMoviebById(movie.id);
-        });
-        const mediaImg = document.createElement('img');
-        // mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-        mediaImg.setAttribute('alt', movie.title);
-        mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-        mediaImg.addEventListener('error', () => {
-            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
-
-            lazyLoader.observe(mediaImg);
-        
-        const mediaInfo = document.createElement('div');
-        mediaInfo.classList = 'video__info';
-        const mediaName = document.createElement('div');
-        mediaName.classList = 'movie__name';
-        const p = document.createElement('p');
-        const text = document.createTextNode(`${movie.original_title}`);
-        p.append(text);
-        mediaName.append(p);
-        mediaInfo.append(mediaName);
-        div.append(mediaImg,mediaInfo);
-        createContainer.append(div);
-    })
-    singleCategoryView.append(createContainer);
-    const btnContainer = document.createElement('div');
-    btnContainer.className = 'btnContainer';
-    const btnLoadMore = document.createElement('button');
-    btnLoadMore.innerText = 'Load more';
-    btnContainer.appendChild(btnLoadMore)
-    singleCategoryView.append(btnContainer);
-};
-
 async function getMoviesBySearch(query){
     resultsContainer.innerHTML = "";
     const createContainer = document.createElement('div');
@@ -221,36 +257,7 @@ async function getMoviesBySearch(query){
     });
 
     const movies = data.results;
-    movies.forEach(movie => {
-        const div = document.createElement('div');
-        div.classList = 'categorie-movie__preview';
-        div.addEventListener('click', () => {
-            location.hash = `movie=${movie.id}`;
-            getMoviebById(movie.id);
-        })
-        const mediaImg = document.createElement('img');
-        // mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-        mediaImg.setAttribute('alt', movie.title);
-        mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-        mediaImg.addEventListener('error', () => {
-            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
-
-        lazyLoader.observe(mediaImg);
-        
-        const mediaInfo = document.createElement('div');
-        mediaInfo.classList = 'video__info';
-        const mediaName = document.createElement('div');
-        mediaName.classList = 'movie__name';
-        const p = document.createElement('p');
-        const text = document.createTextNode(`${movie.original_title}`);
-        p.append(text);
-        mediaName.append(p);
-        mediaInfo.append(mediaName);
-        div.append(mediaImg,mediaInfo);
-        createContainer.append(div);
-    })
-    resultsContainer.append(createContainer);
+    createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad:true,clean:true})
 }
 
 async function getMoviebById(movieId){
@@ -300,8 +307,8 @@ async function getMoviebById(movieId){
     
 };
 
-async function getSerieById(serieId){
-    const { data } = await api(`/tv/${serieId}`);
+async function getSerieById(movieId){
+    const { data } = await api(`/tv/${movieId}`);
     singleMediaView.innerHTML = '';
     console.log(data);
     const generateMovieDetails = 
