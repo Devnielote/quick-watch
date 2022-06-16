@@ -24,6 +24,7 @@
     />
   </head>
   <body>
+    <!-- Navigation section -->
     <nav id="top-nav-container">
       <div class="logo__container">
         <a class="logo__container" href="#">
@@ -54,7 +55,11 @@
         <ul id="desktopCategories-container"></ul>
       </div>
     </aside>
+    <!-- Navigation section -->
+
+    <!-- Main container section -->
     <div class="main" id="main-container">
+      <!-- Categories and search bar section -->
       <section class="mobileCategories__container">
         <ul class="mobileCategories" id="mobileCategories-container"></ul>
       </section>
@@ -76,6 +81,9 @@
           </div>
         </section>
       </section>
+      <!-- Categories and search bar section -->
+
+      <!-- Single media details section -->
       <header class="view__title" id="movie-header">
         <div class="movie-detail-bg">
           <div class="back-arrow" id="back-btn">
@@ -83,6 +91,24 @@
           </div>
         </div>
       </header>
+      <section
+        class="media-detail__container"
+        id="media-details-container"
+      ></section>
+      <section class="relatedMovies" id="related-medias-container"></section>
+      <!-- Single media details section -->
+
+      <!-- Medias full page section -->
+      <section class="mediaFullPage__section" id="mediasFullPage-section">
+        <div
+          class="mediaFullPageTitle__container"
+          id="mediaFullPageTitle-container"
+        ></div>
+        <div
+          class="mediaFullPage__container"
+          id="mediaFullPage-container"
+        ></div>
+      </section>
       <section class="search-result__container" id="search-result-container">
         <div class="result__title"></div>
         <div
@@ -90,10 +116,19 @@
           class="movie-preview__container"
         ></div>
       </section>
+      <section class="categorie--detail" id="category-single-view">
+        <div class="categorie__title" id="category-title"></div>
+      </section>
+      <!-- Medias full page section -->
+
+      <!-- Home page section with carousel medias -->
       <div class="generic-sections-container" id="home-section__container">
         <section class="generic__section" id="generic-section">
           <div class="title__container">
-            <h2>Now playing movies</h2>
+            <h2>Now playing</h2>
+            <a href="" class="home__loadMore" id="seeMore-btn" onclick=""
+              >See more</a
+            >
           </div>
           <div class="--carousel" id="nowPlayingMovies-container"></div>
 
@@ -103,6 +138,9 @@
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>Top rated movies</h2>
+            <a href="" class="home__loadMore" id="seeMore-btn" onclick=""
+              >See more</a
+            >
           </div>
           <div class="--carousel" id="topRatedMovies-container"></div>
         </section>
@@ -110,6 +148,9 @@
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>On air series</h2>
+            <a href="" class="home__loadMore" id="seeMore-btn" onclick=""
+              >See more</a
+            >
           </div>
           <div class="--carousel" id="onAirSeries-container"></div>
         </section>
@@ -117,21 +158,18 @@
         <section class="generic__section" id="generic-section">
           <div class="title__container">
             <h2>Top rated series</h2>
+            <a href="" class="home__loadMore" id="seeMore-btn" onclick=""
+              >See more</a
+            >
           </div>
           <div class="--carousel" id="topRatedSeries-container"></div>
         </section>
       </div>
-      <!-- <section class="" id="fullMediasContainer"></section> -->
-      <section class="categorie--detail" id="category-single-view">
-        <div class="categorie__title" id="category-title"></div>
-      </section>
-
-      <section
-        class="media-detail__container"
-        id="media-details-container"
-      ></section>
-      <section class="relatedMovies" id="related-medias-container"></section>
+      <!-- Home page section with carousel medias -->
     </div>
+    <!-- Main container section -->
+
+    <!-- Footer section -->
     <footer>
       <a href="https://github.com/Devnielote"> Made with 💚 by @devnielote </a>
       <a href="https://www.flaticon.com/free-icons/movie" title="movie icons"
@@ -141,10 +179,14 @@
         >Search | Star icons by Icons8
       </a>
     </footer>
+    <!-- Footer section -->
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./src/API.js"></script>
     <script src="./src/nodes.js"></script>
     <script src="./src/index.js"></script>
     <script src="./src/navigation.js"></script>
+    <!-- Scripts -->
   </body>
 </html>
