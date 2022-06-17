@@ -296,7 +296,7 @@ async function getTopRatedSeriesFullPage() {
         createFullPageMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
 }
 
-//TODO: Buscador para series y peliculas
+//TODO: Buscador para series, películas y directores
 async function getMediasBySearch(query ){
     resultsContainer.innerHTML = "";
     const createContainer = document.createElement('div');
@@ -356,7 +356,7 @@ async function getMoviebById(movieId){
             mediaGenres.append(mediaGenre);
         });
 
-        getSimilarMovies(data.id);
+        getSimilarMedias(data.id);
         mediaInfoContainer.append(mediaDescription,mediaGenres);
         singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
     
@@ -404,40 +404,33 @@ async function getSerieById(movieId){
             mediaGenres.append(mediaGenre);
         });
 
-        getSimilarSeries(data.id);
+        getSimilarMedias(data.id);
         mediaInfoContainer.append(mediaDescription,mediaGenres);
         singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
 };
 
-async function getSimilarMovies(movieId){
-    const { data } = await api(`movie/${movieId}/recommendations`);
-    console.log( data );
-    relatedMediasContainer.innerHTML = '';
-    const span = document.createElement('span');
-    const spanText = document.createTextNode('Related to this');
-    span.appendChild(spanText);
-    const div = document.createElement('div');
-    div.className = '--carousel';
-    relatedMediasContainer.append(span,div);
-    data.results.forEach(media => {
-        const mediaContainer = document.createElement('div');
-        mediaContainer.className = 'this-month__movie';
-        mediaContainer.addEventListener('click', () => {
-            location.hash = `movie=${media.id}`;
-            getMoviebById(media.id);
-        })
-        const mediaImg = document.createElement('img');
-        // mediaImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`
-        mediaImg.setAttribute('alt', media.title);
-        mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(media.poster_path));
-        mediaImg.addEventListener('error', () => {
-            mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-            });
 
-        lazyLoader.observe(mediaImg);
-        mediaContainer.appendChild(mediaImg);
-        div.append(mediaContainer);
-    })
+async function getSimilarMedias(mediaId){
+    if(location.hash.startsWith('#movie=')){
+        const { data } = await api(`movie/${mediaId}/similar`);
+        const medias = data.results;
+        createMedias(medias,relatedMediasContainer,true,{lazyLoad: true, clean: true});
+    } else {
+        const { data } = await api(`tv/${mediaId}/similar`);
+        const medias = data.results;
+        createMedias(medias,relatedMediasContainer,false,{lazyLoad: true, clean: true});
+    }
+}
+
+//TODO: Una única función para generar single media details page con similar medias incluido.
+
+
+//Old functions
+async function getSimilarMovies(movieId){
+    const { data } = await api(`movie/${movieId}/similar`);
+    const medias = data.results;
+
+    createMedias(medias,relatedMediasContainer,true,{lazyLoad: true, clean: true});
     
 };
 
@@ -461,5 +454,3 @@ async function getSimilarSeries(movieId){
     })
 
 };
-
-//TODO: Una única función para generar single media details page con similar medias incluido.
