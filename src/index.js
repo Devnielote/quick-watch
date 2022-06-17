@@ -97,8 +97,9 @@ function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clea
     });
 };
 
+//TODO: Agregar contenedores y estilos especificos para cuando se detecten personas, diferenciar de directores y actores.
 function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clean = false, } = {}){
-
+    fullMediaPageSection.lastChild.remove();
     if(clean) {
         container.innerHTML = '';
     };
@@ -107,10 +108,10 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
         const mediaContainer = document.createElement('div');
         mediaContainer.addEventListener('click', () => {
             if(mediaTypeMovie){
-                location.hash = `movie=${media.id}`;
+                location.hash = `#movie=${media.id}`;
                 getMoviebById(media.id);
             } else {
-                location.hash = `movie=${media.id}`
+                location.hash = `#serie=${media.id}`
                 getSerieById(media.id);
             }
         });
@@ -132,12 +133,13 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
         mediaContainer.append(mediaImg);
         container.append(mediaContainer);
     })
+
     const btnContainer = document.createElement('div');
     btnContainer.className = 'btnContainer';
     const btnLoadMore = document.createElement('button');
     btnLoadMore.innerText = 'Load more';
     btnContainer.appendChild(btnLoadMore)
-    container.appendChild(btnContainer);
+    fullMediaPageSection.appendChild(btnContainer);
 };
 
 async function getMoviesByCategory(id){
@@ -295,19 +297,20 @@ async function getTopRatedSeriesFullPage() {
 }
 
 //TODO: Buscador para series y peliculas
-async function getMoviesBySearch(query){
+async function getMediasBySearch(query ){
     resultsContainer.innerHTML = "";
     const createContainer = document.createElement('div');
     createContainer.classList = 'movie-preview__container';
 
-    const { data } = await api(`search/movie`,{
-        params: {
-            query,
-        },
-    });
+    const { data } = await api(`search/multi`,{
+            params: {
+                query,
+            },
+        });
+        medias = data.results;
+        console.log(data.results);
 
-    const movies = data.results;
-    createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad:true,clean:true})
+    createFullPageMedias(medias,fullMediaPageContainer,true,{lazyLoad:true,clean:true})
 }
 
 //Api calls for single media detail 

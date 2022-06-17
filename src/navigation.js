@@ -86,7 +86,7 @@ function searchPageResults(){
     const fullMediaPageTitleText = document.createTextNode(`Results from: ${query}`);
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
-    getMoviesBySearch(query);
+    getMediasBySearch(query);
 }
 
 function singleGenrePage(){
