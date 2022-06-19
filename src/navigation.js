@@ -12,10 +12,6 @@ function navigator() {
     searchInput.value = '';
     if (location.hash.startsWith('#search=')) {
         searchPageResults();
-    } else if (location.hash.startsWith('#series')) {
-        seriesPage()
-    } else if (location.hash.startsWith('#directors')) {
-        directorsPage()
     } else if (location.hash.startsWith('#category=')) {
         singleGenrePage()
     } else if (location.hash.startsWith('#movie=')) {
@@ -38,7 +34,6 @@ function navigator() {
         homePage()
     }
 }
-
 
 function homePage(){
     homeSections.classList.remove('disabled');
