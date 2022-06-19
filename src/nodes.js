@@ -30,6 +30,9 @@ const singleCategoryMediaPreview = document.querySelector('#movie-preview-contai
 //Generic single media details
 const singleMediaView = document.querySelector('#media-details-container');
 const relatedMediasContainer = document.querySelector('#related-medias-container');
+const singleMediaDetailsContainer = document.querySelector('#singleMediaDetails-container');
+const singleMediaDetailsBg = document.querySelector('#singleMediaDetails-bg');
+const singleMediaDetailsInfo = document.querySelector('#singleMediaDetails-info');
 
 //Search bar container
 const searchBarSection = document.querySelector('#search-bar-container')
