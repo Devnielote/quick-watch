@@ -48,10 +48,8 @@ function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clea
         mediaContainer.addEventListener('click', () => {
             if(mediaTypeMovie){
                 location.hash = `#movie=${media.id}`;
-                getMoviebById(media.id);
             } else {
                 location.hash = `#serie=${media.id}`
-                getSerieById(media.id);
             }
         });
         mediaContainer.classList = 'genericMedia__container'
@@ -109,10 +107,10 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
         mediaContainer.addEventListener('click', () => {
             if(mediaTypeMovie){
                 location.hash = `#movie=${media.id}`;
-                getMoviebById(media.id);
+                getMediaDetailsById(media.id);
             } else {
                 location.hash = `#serie=${media.id}`
-                getSerieById(media.id);
+                getMediaDetailsById(media.id);
             }
         });
         mediaContainer.classList = 'genericMedia__container'
@@ -315,63 +313,33 @@ async function getMediasBySearch(query ){
 
 //Api calls for single media detail 
 
-async function getMoviebById(movieId){
-    const { data } = await api(`movie/${movieId}`);
-    singleMediaView.innerHTML = '';
-    const generateMovieDetails = 
-        headerContainer.style.backgroundImage = `url(${API_IMAGE_REQUEST(data.poster_path)})`;
-        const mediaTitleContainer = document.createElement('div');
-        mediaTitleContainer.className = 'media__title';
-        const mediaTitle = document.createElement('p');
-        const p = document.createTextNode(`${data.original_title}`);
-        mediaTitle.append(p);
-        const videoInfo = document.createElement('div');
-        videoInfo.classList.add('video__info--noMargin');
-        const movieRating = document.createElement('div');
-        movieRating.className = 'movie_rating';
-        const starImg = document.createElement('img');
-        starImg.src = './styles/assets/start-flaticon.png';
-        starImg.style.width = '20px';
-        const span = document.createElement('span');
-        const rating = document.createTextNode(`${data.vote_average}`);
-        span.append(rating);
-        movieRating.append(starImg,span)
-        videoInfo.append(movieRating)
-        mediaTitleContainer.append(mediaTitle,videoInfo);
-
-        const mediaInfoContainer = document.createElement('div');
-        mediaInfoContainer.className = 'media__info';
-        const mediaDescription = document.createElement('p');
-        const descriptionText = document.createTextNode(`${data.overview}`);
-        mediaDescription.append(descriptionText);
-        const mediaGenres = document.createElement('div');
-        mediaGenres.className = 'media__genres';
-        data.genres.forEach(genre => {
-            const mediaGenre = document.createElement('div');
-            mediaGenre.className = 'media__genre';
-            const span = document.createElement('span');
-            const text = document.createTextNode(`${genre.name}`);
-            span.append(text);
-            mediaGenre.append(span);
-            mediaGenres.append(mediaGenre);
-        });
-
-        getSimilarMedias(data.id);
-        mediaInfoContainer.append(mediaDescription,mediaGenres);
-        singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
-    
-};
-
-async function getSerieById(movieId){
-    const { data } = await api(`/tv/${movieId}`);
-    singleMediaView.innerHTML = '';
+async function getMediaDetailsById(mediaId){
+    if(location.hash.startsWith('#movie=')){
+        media = { data } = await api(`movie/${mediaId}`);
+    } else {
+        media = { data } = await api(`/tv/${mediaId}`);
+    };
+    singleMediaDetailsBg.innerHTML = '';
+    singleMediaDetailsInfo.innerHTML = '';
     console.log(data);
-    const generateMovieDetails = 
-        headerContainer.style.backgroundImage = `url(${API_IMAGE_REQUEST(data.poster_path)})`;
-        const mediaTitleContainer = document.createElement('div');
-        mediaTitleContainer.className = 'media__title';
-        const mediaTitle = document.createElement('p');
-        const p = document.createTextNode(`${data.name}`);
+    const generateSingleMediaDetails = 
+    singleMediaDetailsBg.style.backgroundImage = `url(${API_IMAGE_REQUEST(data.poster_path)})`;
+    const backArrowContainer = document.createElement('div');
+    backArrowContainer.className = 'back-arrow';
+    backArrowContainer.id = 'back-btn';
+    const backArrowImg = document.createElement('img');
+    backArrowImg.src = `./styles/assets/arrow-left.svg`;
+    backArrowContainer.append(backArrowImg);
+    backArrowContainer.addEventListener('click', () => {
+        location.hash = '';
+    })
+    singleMediaDetailsBg.append(backArrowContainer);
+    const mediaTitleContainer = document.createElement('div');
+    mediaTitleContainer.className = 'singleMediaDetails__title';
+    const mediaTitle = document.createElement('p');
+    if(data.original_title){
+         p = document.createTextNode(`${data.original_title}`);
+    } else p = document.createTextNode(`${data.name}`);
         mediaTitle.append(p);
         const videoInfo = document.createElement('div');
         videoInfo.classList.add('video__info--noMargin');
@@ -404,11 +372,11 @@ async function getSerieById(movieId){
             mediaGenres.append(mediaGenre);
         });
 
-        getSimilarMedias(data.id);
-        mediaInfoContainer.append(mediaDescription,mediaGenres);
-        singleMediaView.append(mediaTitleContainer,mediaInfoContainer);
-};
-
+        // getSimilarMedias(media.id);
+        singleMediaDetailsBg.append(mediaTitleContainer);
+        singleMediaDetailsInfo.append(mediaDescription,mediaGenres);
+        singleMediaDetailsContainer.append(mediaInfoContainer);
+}
 
 async function getSimilarMedias(mediaId){
     if(location.hash.startsWith('#movie=')){
@@ -423,7 +391,6 @@ async function getSimilarMedias(mediaId){
 }
 
 //TODO: Una única función para generar single media details page con similar medias incluido.
-
 
 //Old functions
 async function getSimilarMovies(movieId){
