@@ -253,7 +253,7 @@ nav ul {
 
 .--carousel > div > img {
     height: 25rem;
-    border-radius: 3rem;
+    border-radius: 1rem;
 }
 
 .generic__section {
@@ -401,7 +401,7 @@ footer {
     min-width: 140px;
     max-width: 180px;
     height: auto;
-    margin: .8rem;
+    margin: .3rem;
     padding: 0;
 }
 
