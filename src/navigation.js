@@ -1,5 +1,7 @@
 let page = 1; //Por defecto los request que utilicen paginación retornaran la página 1.
 
+//TODO: Back button que no te regrese directamente al home.
+
 searchBtn.addEventListener('click', () => {
     location.hash = `search=${searchFormInput.value.trim()}`
 });
@@ -58,7 +60,6 @@ function homePage(){
 function searchPageResults(){
     getAsideCategories();
     getCategories();
-    console.log('Searching something');
     // // headerContainer.classList.add('disabled');
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
@@ -70,7 +71,7 @@ function searchPageResults(){
     homeSections.classList.add('disabled');
     resultsContainer.classList.remove('disabled');
     // // relatedMediasContainer.classList.add('disabled');
-
+    
     const [_, query] = location.hash.split('=');
     fullMediaPageTitleContainer.innerHTML = '';
     const fullMediaPageTitle = document.createElement('h2');

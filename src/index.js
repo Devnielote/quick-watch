@@ -105,14 +105,15 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
     medias.forEach(media => {
         const mediaContainer = document.createElement('div');
         mediaContainer.addEventListener('click', () => {
+
             if(mediaTypeMovie){
                 location.hash = `#movie=${media.id}`;
-                getMediaDetailsById(media.id);
-            } else {
+            } else if (mediaTypeMovie == false){
                 location.hash = `#serie=${media.id}`
-                getMediaDetailsById(media.id);
             }
+
         });
+
         mediaContainer.classList = 'genericMedia__container'
         mediaContainer.id = 'single-media-container';
         const mediaImg = document.createElement('img');
@@ -139,6 +140,52 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
     btnContainer.appendChild(btnLoadMore)
     fullMediaPageSection.appendChild(btnContainer);
 };
+
+function multiSearchFullPageMedias(medias,container,{lazyLoad = false, clean = false,} = {}){
+    fullMediaPageSection.lastChild.remove();
+    if(clean) {
+        container.innerHTML = '';
+    };
+
+        medias.forEach(media => {
+            const mediaContainer = document.createElement('div');
+            mediaContainer.addEventListener('click', () => {
+                if(media.media_type == 'movie'){
+                    location.hash = `#movie=${media.id}`;
+                } else if (media.media_type == 'person') {
+                    location.hash = `#person=${media.id}`
+                    alert('Person details page in construction')
+                } else if(media.media_type == 'tv') {
+                    location.hash = `#serie=${media.id}`;
+                }
+            });
+    
+            mediaContainer.classList = 'genericMedia__container'
+            mediaContainer.id = 'single-media-container';
+            const mediaImg = document.createElement('img');
+            mediaImg.setAttribute('alt', media.title);
+            mediaImg.setAttribute(
+                lazyLoad ? 'data-imgUrl': 'src',
+                API_IMAGE_REQUEST(media.poster_path));
+    
+            mediaImg.addEventListener('error', () => {
+                mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
+            });
+    
+            if(lazyLoad){
+                lazyLoader.observe(mediaImg);
+            }
+            mediaContainer.append(mediaImg);
+            container.append(mediaContainer);
+        })
+    
+        const btnContainer = document.createElement('div');
+        btnContainer.className = 'btnContainer';
+        const btnLoadMore = document.createElement('button');
+        btnLoadMore.innerText = 'Load more';
+        btnContainer.appendChild(btnLoadMore)
+        fullMediaPageSection.appendChild(btnContainer);
+}
 
 async function getMoviesByCategory(id){
     const { data } = await api(`discover/movie`,{
@@ -294,12 +341,12 @@ async function getTopRatedSeriesFullPage() {
         createFullPageMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
 }
 
-//TODO: Buscador para series, películas y directores
-async function getMediasBySearch(query ){
+//TODO: Buscador para series, películas y directores (CHECK)
+async function getMediasBySearch(query){
     resultsContainer.innerHTML = "";
     const createContainer = document.createElement('div');
     createContainer.classList = 'movie-preview__container';
-
+    
     const { data } = await api(`search/multi`,{
             params: {
                 query,
@@ -308,11 +355,12 @@ async function getMediasBySearch(query ){
         medias = data.results;
         console.log(data.results);
 
-    createFullPageMedias(medias,fullMediaPageContainer,true,{lazyLoad:true,clean:true})
+    multiSearchFullPageMedias(medias,fullMediaPageContainer,{lazyLoad:true,clean:true})
 }
 
-//Api calls for single media detail 
+//Api calls for single media details. 
 
+//TODO: Función de media details debe detectar que tipo de media (serie, pelicula o director) se debe traer.
 async function getMediaDetailsById(mediaId){
     if(location.hash.startsWith('#movie=')){
         media = { data } = await api(`movie/${mediaId}`);
@@ -376,6 +424,7 @@ async function getMediaDetailsById(mediaId){
         singleMediaDetailsBg.append(mediaTitleContainer);
         singleMediaDetailsInfo.append(mediaDescription,mediaGenres);
         singleMediaDetailsContainer.append(mediaInfoContainer);
+        getSimilarMedias(data.id);
 }
 
 async function getSimilarMedias(mediaId){
@@ -390,34 +439,6 @@ async function getSimilarMedias(mediaId){
     }
 }
 
-//TODO: Una única función para generar single media details page con similar medias incluido.
-
-//Old functions
-async function getSimilarMovies(movieId){
-    const { data } = await api(`movie/${movieId}/similar`);
-    const medias = data.results;
-
-    createMedias(medias,relatedMediasContainer,true,{lazyLoad: true, clean: true});
-    
-};
-
-async function getSimilarSeries(movieId){
-    const { data } = await api(`tv/${movieId}/similar`);
-    console.log( data );
-    relatedMediasContainer.innerHTML = '';
-    const span = document.createElement('span');
-    const spanText = document.createTextNode('Related to this');
-    span.appendChild(spanText);
-    const div = document.createElement('div');
-    div.className = '--carousel';
-    relatedMediasContainer.append(span,div);
-    data.results.forEach(media => {
-        const mediaContainer = document.createElement('div');
-        mediaContainer.className = 'this-month__movie';
-        const mediaImg = document.createElement('img');
-        mediaImg.src = `${API_IMAGE_REQUEST(media.poster_path)}`
-        mediaContainer.appendChild(mediaImg);
-        div.append(mediaContainer);
-    })
-
-};
+//TODO: Una única función para generar single media details page con similar medias incluido. (CHECK)
+//TODO: Crear función de similar medias y agregarla al single medias section. (CHECK)
+//TODO: Crear función para hacer request del cast y crew de cada single media detail que se llame.
