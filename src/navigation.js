@@ -1,5 +1,5 @@
 let page = 1; //Por defecto los request que utilicen paginación retornaran la página 1.
-
+let infiniteScroll;
 //TODO: Back button que no te regrese directamente al home.
 
 searchBtn.addEventListener('click', () => {
@@ -8,9 +8,14 @@ searchBtn.addEventListener('click', () => {
 
 window.addEventListener('DOMContentLoaded', navigator);
 window.addEventListener('hashchange', navigator);
-
+window.addEventListener('scroll', infiniteScroll, false);
 
 function navigator() {
+    if(infiniteScroll){
+        window.removeEventListener('scroll', infiniteScroll, { passive: false});
+        infiniteScroll = undefined;
+    }
+    page = 1;
     searchInput.value = '';
     if (location.hash.startsWith('#search=')) {
         searchPageResults();
@@ -20,10 +25,10 @@ function navigator() {
         singleMediaDetails();
     } else if(location.hash.startsWith('#serie=')) {
         singleMediaDetails();
+    }else if (location.hash.startsWith('#person=')){
+        singleMediaDetails();
     } else if (location.hash.startsWith('#on-air')) {
         onAirPage()
-    } else if (location.hash.startsWith('#top-rated-series')) {
-        topRatedMoviesPage()
     } else if (location.hash.startsWith('#nowPlayingMovies')) {
         nowPlayingMoviesFullPage();
     } else if (location.hash.startsWith('#topRatedMovies')) {
@@ -34,6 +39,12 @@ function navigator() {
         topRatedSeriesFullPage();
     } else {
         homePage()
+    }
+
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    if(infiniteScroll) {
+        window.addEventListener('scroll', infiniteScroll, { passive: false});
     }
 }
 
@@ -107,7 +118,7 @@ function singleGenrePage(){
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
     getMoviesByCategory(categoryId);
-   
+    infiniteScroll = getPaginatedMoviesByGenre;
 }
 
 function singleMediaDetails(){
@@ -128,7 +139,6 @@ function singleMediaDetails(){
 function nowPlayingMoviesFullPage() {
     getAsideCategories();
     getCategories();
-    getNowPlayingMoviesFullPage();
     // headerContainer.classList.add('disabled');
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
@@ -145,12 +155,13 @@ function nowPlayingMoviesFullPage() {
     const fullMediaPageTitleText = document.createTextNode(`Now playing movies`);
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
+    getNowPlayingMoviesFullPage();
+    infiniteScroll = getPaginatedPlayingNowMovies;
 }
 
 function topRatedMoviesFullPage() {
     getAsideCategories();
     getCategories();
-    getTopRatedMoviesFullPage();
     // headerContainer.classList.add('disabled');
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
@@ -167,12 +178,13 @@ function topRatedMoviesFullPage() {
     const fullMediaPageTitleText = document.createTextNode(`Top rated movies`);
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);  
+    getTopRatedMoviesFullPage();
+    infiniteScroll = getPaginatedTopRatedMovies;
 }
 
 function onAirSeriesFullPage() {
     getAsideCategories();
     getCategories();
-    getOnAirSeriesFullPage();
     // headerContainer.classList.add('disabled');
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
@@ -184,18 +196,19 @@ function onAirSeriesFullPage() {
     homeSections.classList.add('disabled');
     resultsContainer.classList.remove('disabled');
     // relatedMediasContainer.classList.add('disabled');
-
+    
     fullMediaPageTitleContainer.innerHTML = '';
     const fullMediaPageTitle = document.createElement('h2');
     const fullMediaPageTitleText = document.createTextNode(`On air series`);
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
+    getOnAirSeriesFullPage();
+    infiniteScroll = getPaginatedOnAirSeries;
 }
 
 function topRatedSeriesFullPage() {
     getAsideCategories();
     getCategories();
-    getTopRatedSeriesFullPage();
     // headerContainer.classList.add('disabled');
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
@@ -207,10 +220,13 @@ function topRatedSeriesFullPage() {
     homeSections.classList.add('disabled');
     resultsContainer.classList.remove('disabled');
     // relatedMediasContainer.classList.add('disabled');
-
+    
     fullMediaPageTitleContainer.innerHTML = '';
     const fullMediaPageTitle = document.createElement('h2');
     const fullMediaPageTitleText = document.createTextNode(`Top rated series`);
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
+    getTopRatedSeriesFullPage();
+    infiniteScroll = getPaginatedTopRatedSeries;
+
 }

@@ -19,6 +19,7 @@ const lazyLoader = new IntersectionObserver((entries) => {
 });
 
 //Sections generators
+//TODO: Un generic section generator donde se guarden las medias que se llamen en base al hash. Así no dependo de varios containers, solo de uno en general
 function createGenre(genres,container) {
 
     container.innerHTML = '';
@@ -97,7 +98,6 @@ function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clea
 
 //TODO: Agregar contenedores y estilos especificos para cuando se detecten personas, diferenciar de directores y actores.
 function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clean = false, } = {}){
-    fullMediaPageSection.lastChild.remove();
     if(clean) {
         container.innerHTML = '';
     };
@@ -132,13 +132,6 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
         mediaContainer.append(mediaImg);
         container.append(mediaContainer);
     })
-
-    const btnContainer = document.createElement('div');
-    btnContainer.className = 'btnContainer';
-    const btnLoadMore = document.createElement('button');
-    btnLoadMore.innerText = 'Load more';
-    btnContainer.appendChild(btnLoadMore)
-    fullMediaPageSection.appendChild(btnContainer);
 };
 
 function multiSearchFullPageMedias(medias,container,{lazyLoad = false, clean = false,} = {}){
@@ -159,7 +152,7 @@ function multiSearchFullPageMedias(medias,container,{lazyLoad = false, clean = f
                     location.hash = `#serie=${media.id}`;
                 }
             });
-    
+            
             mediaContainer.classList = 'genericMedia__container'
             mediaContainer.id = 'single-media-container';
             const mediaImg = document.createElement('img');
@@ -178,13 +171,7 @@ function multiSearchFullPageMedias(medias,container,{lazyLoad = false, clean = f
             mediaContainer.append(mediaImg);
             container.append(mediaContainer);
         })
-    
-        const btnContainer = document.createElement('div');
-        btnContainer.className = 'btnContainer';
-        const btnLoadMore = document.createElement('button');
-        btnLoadMore.innerText = 'Load more';
-        btnContainer.appendChild(btnLoadMore)
-        fullMediaPageSection.appendChild(btnContainer);
+
 }
 
 async function getMoviesByCategory(id){
@@ -195,37 +182,8 @@ async function getMoviesByCategory(id){
         },
     });
     const movies = data.results;
-    // movies.forEach(movie => {
-    //     const div = document.createElement('div');
-    //     div.classList = 'categorie-movie__preview';
-    //     div.addEventListener('click', () => {
-    //         location.hash = `movie=${movie.id}`;
-    //         getMoviebById(movie.id);
-    //     });
-    //     const mediaImg = document.createElement('img');
-    //     // mediaImg.src = `${API_IMAGE_REQUEST(movie.poster_path)}`;
-    //     mediaImg.setAttribute('alt', movie.title);
-    //     mediaImg.setAttribute('data-imgUrl', API_IMAGE_REQUEST(movie.poster_path));
-    //     mediaImg.addEventListener('error', () => {
-    //         mediaImg.setAttribute('src', `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Ferror-document-icon-vector-id1060550172%3Fk%3D6%26m%3D1060550172%26s%3D612x612%26w%3D0%26h%3DgdWxz8H1C8PaxEKF_ItZfo_S-cbQsxC415_n5v9irvs%3D&f=1&nofb=1`);
-    //         });
-
-    //         lazyLoader.observe(mediaImg);
-        
-    //     const mediaInfo = document.createElement('div');
-    //     mediaInfo.classList = 'video__info';
-    //     const mediaName = document.createElement('div');
-    //     mediaName.classList = 'movie__name';
-    //     const p = document.createElement('p');
-    //     const text = document.createTextNode(`${movie.original_title}`);
-    //     p.append(text);
-    //     mediaName.append(p);
-    //     mediaInfo.append(mediaName);
-    //     div.append(mediaImg,mediaInfo);
-    //     createContainer.append(div);
-    // })
+    
     createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad: true, clean: true});
-    // fullMediaPageContainer.append(btnContainer);
 };
 
 
@@ -295,18 +253,17 @@ async function getTopRatedSeriesPreview() {
 
 //API calls for full page section
 
+
 async function getNowPlayingMoviesFullPage() {
-    const { data } = await api('movie/now_playing',
-    {
+    const { data } = await api('movie/now_playing',{
         params: {
-            region: 'US',
             page,
         }
     });
-    
-        const movies = data.results;
-        createFullPageMedias(movies,fullMediaPageContainer,true, {lazyLoad:true, clean:true} );
+    const movies = data.results;
+    createFullPageMedias(movies,fullMediaPageContainer,true, {lazyLoad:true, clean:true} );
 }
+
 
 async function getTopRatedMoviesFullPage() {
     const { data } = await api('movie/top_rated',
@@ -328,6 +285,7 @@ async function getOnAirSeriesFullPage() {
         createMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
 }
 
+
 async function getTopRatedSeriesFullPage() {
     const {data} = await api('tv/top_rated',
     {
@@ -340,6 +298,125 @@ async function getTopRatedSeriesFullPage() {
         const series = data.results;
         createFullPageMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
 }
+
+
+//Api calls for infinite scrolling
+
+async function getPaginatedPlayingNowMovies() {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if(scrollIsBottom) {
+        page++;
+        const { data } = await api('movie/now_playing', {
+            params: {
+                page,
+            }
+        });
+
+        const movies = data.results;
+        createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad: true, clean:false});
+    };
+}
+
+async function getPaginatedTopRatedMovies() {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if(scrollIsBottom) {
+        page++;
+        const { data } = await api('movie/top_rated', {
+            params: {
+                page,
+            }
+        });
+
+        const movies = data.results;
+        createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad: true, clean:false});
+    };
+}
+
+async function getPaginatedOnAirSeries() {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if(scrollIsBottom) {
+        page++;
+        const { data } = await api('tv/popular', {
+            params: {
+                page,
+            }
+        });
+
+        const movies = data.results;
+        createFullPageMedias(movies,fullMediaPageContainer,false,{lazyLoad: true, clean:false});
+    };
+}
+
+async function getPaginatedTopRatedSeries() {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if(scrollIsBottom) {
+        page++;
+        const { data } = await api('tv/top_rated', {
+            params: {
+                page,
+            }
+        });
+
+        const movies = data.results;
+        createFullPageMedias(movies,fullMediaPageContainer,false,{lazyLoad: true, clean:false});
+    };
+}
+async function getPaginatedMoviesByGenre() {
+    const [_, categoryData] = location.hash.split('=');
+    const [categoryId, categoryName] = categoryData.split('-');
+    const newName = categoryName.replace('%20', '');
+
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if(scrollIsBottom) {
+        page++;
+        const { data } = await api(`discover/movie`,{
+            params: {
+                with_genres: categoryId,
+                page,
+            },
+        });
+
+        const movies = data.results;
+        createFullPageMedias(movies,fullMediaPageContainer,false,{lazyLoad: true, clean:false});
+    };
+}
+
+
 
 //TODO: Buscador para series, películas y directores (CHECK)
 async function getMediasBySearch(query){
@@ -361,15 +438,69 @@ async function getMediasBySearch(query){
 //Api calls for single media details. 
 
 //TODO: Función de media details debe detectar que tipo de media (serie, pelicula o director) se debe traer.
-async function getMediaDetailsById(mediaId){
-    if(location.hash.startsWith('#movie=')){
-        media = { data } = await api(`movie/${mediaId}`);
-    } else {
-        media = { data } = await api(`/tv/${mediaId}`);
-    };
+
+async function createSinglePageMedia(media, container, mediaType, {lazyLoad = false, clean = false, } = {}) {
     singleMediaDetailsBg.innerHTML = '';
     singleMediaDetailsInfo.innerHTML = '';
-    console.log(data);
+    if(mediaType == 'person') {
+        credits  = await api(`/person/${mediaId}/combined_credits`);
+        console.log(credits)
+        const generateSingleMediaDetails = 
+    singleMediaDetailsBg.style.backgroundImage = `url(${API_IMAGE_REQUEST(media.profile_path)})`;
+    const backArrowContainer = document.createElement('div');
+    backArrowContainer.className = 'back-arrow';
+    backArrowContainer.id = 'back-btn';
+    const backArrowImg = document.createElement('img');
+    backArrowImg.src = `./styles/assets/arrow-left.svg`;
+    backArrowContainer.append(backArrowImg);
+    backArrowContainer.addEventListener('click', () => {
+        location.hash = '';
+    })
+    singleMediaDetailsBg.append(backArrowContainer);
+    const mediaTitleContainer = document.createElement('div');
+    mediaTitleContainer.className = 'singleMediaDetails__title';
+    const mediaTitle = document.createElement('p');
+    if(media.original_title){
+         p = document.createTextNode(`${data.original_title}`);
+    } else p = document.createTextNode(`${data.name}`);
+        mediaTitle.append(p);
+        mediaTitleContainer.append(mediaTitle);
+
+        const mediaInfoContainer = document.createElement('div');
+        mediaInfoContainer.className = 'media__info';
+        const mediaDescription = document.createElement('p');
+        const descriptionText = document.createTextNode(`${media.biography}`);
+        mediaDescription.append(descriptionText);
+        const mediaCredits = document.createElement('div');
+        mediaCredits.className = 'media__genres';
+        data.know_for_department.forEach(genre => {
+            const mediaGenre = document.createElement('div');
+            mediaGenre.className = 'media__genre';
+            const span = document.createElement('span');
+            const text = document.createTextNode(`${genre.name}`);
+            span.append(text);
+            mediaGenre.append(span);
+            mediaGenres.append(mediaGenre);
+        });
+
+        // getSimilarMedias(media.id);
+        singleMediaDetailsBg.append(mediaTitleContainer);
+        singleMediaDetailsInfo.append(mediaDescription,mediaGenres);
+        singleMediaDetailsContainer.append(mediaInfoContainer);
+        getSimilarMedias(data.id);
+    }
+}
+
+async function getMediaDetailsById(mediaId){
+    singleMediaDetailsBg.innerHTML = '';
+    singleMediaDetailsInfo.innerHTML = '';
+    if(location.hash.startsWith('#movie=')){
+        media = { data } = await api(`movie/${mediaId}`);
+    } else if (location.hash.startsWith('#serie=')) {
+        media = { data } = await api(`/tv/${mediaId}`);
+    } else if(location.hash.startsWith('#person=')) {
+        media = { data } = await api(`/person/${mediaId}`);
+    }
     const generateSingleMediaDetails = 
     singleMediaDetailsBg.style.backgroundImage = `url(${API_IMAGE_REQUEST(data.poster_path)})`;
     const backArrowContainer = document.createElement('div');
