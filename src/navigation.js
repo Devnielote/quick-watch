@@ -1,4 +1,5 @@
 let page = 1; //Por defecto los request que utilicen paginación retornaran la página 1.
+let maxPage;
 let infiniteScroll;
 //TODO: Back button que no te regrese directamente al home.
 
@@ -16,7 +17,9 @@ function navigator() {
         infiniteScroll = undefined;
     }
     page = 1;
-    searchInput.value = '';
+    maxPage = undefined;
+    searchFormInput.value = '';
+
     if (location.hash.startsWith('#search=')) {
         searchPageResults();
     } else if (location.hash.startsWith('#category=')) {
@@ -55,7 +58,7 @@ function homePage(){
     topNavContainer.classList.remove('disabled');
     mobileCategoriesContainer.classList.remove('disabled');
     searchBarSection.classList.remove('disabled');
-    resultsContainer.classList.add('disabled');
+    // // resultsContainer.classList.add('disabled');
     fullMediaPageSection.classList.add('disabled');
     // // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
@@ -77,10 +80,11 @@ function searchPageResults(){
     searchBarSection.classList.remove('disabled');
     singleCategoryView.classList.add('disabled');
     fullMediaPageSection.classList.remove('disabled');
+    fullMediaPageContainer.classList.remove('disabled');
     // // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
     homeSections.classList.add('disabled');
-    resultsContainer.classList.remove('disabled');
+    // // resultsContainer.classList.remove('disabled');
     // // relatedMediasContainer.classList.add('disabled');
     
     const [_, query] = location.hash.split('=');
@@ -90,6 +94,7 @@ function searchPageResults(){
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
     getMediasBySearch(query);
+    infiniteScroll = getPaginatedMoviesBySearch(query);
 }
 
 function singleGenrePage(){
@@ -100,9 +105,9 @@ function singleGenrePage(){
     mobileCategoriesContainer.classList.remove('disabled');
     desktopCategoriesContainer.classList.remove('disabled');
     searchBarSection.classList.remove('disabled');
-    resultsContainer.classList.add('disabled');
+    // resultsContainer.classList.add('disabled');
     fullMediaPageSection.classList.remove('disabled');
-    singleCategoryMediaPreview.classList.add('disabled');
+    // singleCategoryMediaPreview.classList.add('disabled');
     // // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
     homeSections.classList.add('disabled');
@@ -118,7 +123,7 @@ function singleGenrePage(){
     fullMediaPageTitle.append(fullMediaPageTitleText);
     fullMediaPageTitleContainer.append(fullMediaPageTitle);
     getMoviesByCategory(categoryId);
-    infiniteScroll = getPaginatedMoviesByGenre;
+    infiniteScroll = getPaginatedMoviesByGenre(categoryId);
 }
 
 function singleMediaDetails(){
@@ -126,7 +131,7 @@ function singleMediaDetails(){
     topNavContainer.classList.add('disabled');
     mobileCategoriesContainer.classList.add('disabled');
     searchBarSection.classList.add('disabled');
-    resultsContainer.classList.add('disabled');
+    // // resultsContainer.classList.add('disabled');
     // // headerContainer.classList.remove('disabled');
     fullMediaPageSection.classList.add('disabled');
     // // singleMediaView.classList.remove('disabled');
@@ -148,7 +153,7 @@ function nowPlayingMoviesFullPage() {
     // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
     homeSections.classList.add('disabled');
-    resultsContainer.classList.remove('disabled');
+    // resultsContainer.classList.remove('disabled');
     // relatedMediasContainer.classList.add('disabled');
     fullMediaPageTitleContainer.innerHTML = '';
     const fullMediaPageTitle = document.createElement('h2');
@@ -171,7 +176,7 @@ function topRatedMoviesFullPage() {
     // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
     homeSections.classList.add('disabled');
-    resultsContainer.classList.remove('disabled');
+    // resultsContainer.classList.remove('disabled');
     // relatedMediasContainer.classList.add('disabled');
     fullMediaPageTitleContainer.innerHTML = '';
     const fullMediaPageTitle = document.createElement('h2');
@@ -194,7 +199,7 @@ function onAirSeriesFullPage() {
     // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
     homeSections.classList.add('disabled');
-    resultsContainer.classList.remove('disabled');
+    // resultsContainer.classList.remove('disabled');
     // relatedMediasContainer.classList.add('disabled');
     
     fullMediaPageTitleContainer.innerHTML = '';
@@ -218,7 +223,7 @@ function topRatedSeriesFullPage() {
     // singleMediaView.classList.add('disabled');
     singleMediaDetailsContainer.classList.add('disabled');
     homeSections.classList.add('disabled');
-    resultsContainer.classList.remove('disabled');
+    // resultsContainer.classList.remove('disabled');
     // relatedMediasContainer.classList.add('disabled');
     
     fullMediaPageTitleContainer.innerHTML = '';

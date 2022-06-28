@@ -20,8 +20,8 @@ const seeMoreBtn = document.querySelector('#see-more');
 
 // Full media page
 const fullMediaPageSection = document.querySelector('#mediasFullPage-section');
-const fullMediaPageContainer = document.querySelector('#mediaFullPage-container');
 const fullMediaPageTitleContainer = document.querySelector('#mediaFullPageTitle-container');
+const fullMediaPageContainer = document.querySelector('#mediaFullPage-container');
 
 // Generic single category view
 const singleCategoryView = document.querySelector('#category-single-view');

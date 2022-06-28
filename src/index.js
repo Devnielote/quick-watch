@@ -96,16 +96,15 @@ function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clea
     });
 };
 
-//TODO: Agregar contenedores y estilos especificos para cuando se detecten personas, diferenciar de directores y actores.
 function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clean = false, } = {}){
     if(clean) {
         container.innerHTML = '';
     };
-
+    
     medias.forEach(media => {
         const mediaContainer = document.createElement('div');
         mediaContainer.addEventListener('click', () => {
-
+            
             if(mediaTypeMovie){
                 location.hash = `#movie=${media.id}`;
             } else if (mediaTypeMovie == false){
@@ -134,8 +133,9 @@ function createFullPageMedias(medias, container, mediaTypeMovie, {lazyLoad = fal
     })
 };
 
+
+//TODO: Agregar contenedores y estilos especificos para cuando se detecten personas, diferenciar de directores y actores.
 function multiSearchFullPageMedias(medias,container,{lazyLoad = false, clean = false,} = {}){
-    fullMediaPageSection.lastChild.remove();
     if(clean) {
         container.innerHTML = '';
     };
@@ -182,7 +182,7 @@ async function getMoviesByCategory(id){
         },
     });
     const movies = data.results;
-    
+    maxPage = data.total_pages;
     createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad: true, clean: true});
 };
 
@@ -261,6 +261,7 @@ async function getNowPlayingMoviesFullPage() {
         }
     });
     const movies = data.results;
+    maxPage = data.total_pages;
     createFullPageMedias(movies,fullMediaPageContainer,true, {lazyLoad:true, clean:true} );
 }
 
@@ -275,6 +276,7 @@ async function getTopRatedMoviesFullPage() {
     });
    
         const movies = data.results;
+        maxPage = data.total_pages;
         createMedias(movies,fullMediaPageContainer,true,{lazyLoad:true, clean:true});
 }
 
@@ -282,6 +284,7 @@ async function getOnAirSeriesFullPage() {
     const {data} = await api('tv/popular');
 
         const series = data.results;
+        maxPage = data.total_pages;
         createMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
 }
 
@@ -296,6 +299,7 @@ async function getTopRatedSeriesFullPage() {
     });
 
         const series = data.results;
+        maxPage = data.total_pages;
         createFullPageMedias(series,fullMediaPageContainer,false,{lazyLoad:true, clean:true});
 }
 
@@ -311,7 +315,9 @@ async function getPaginatedPlayingNowMovies() {
 
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
-    if(scrollIsBottom) {
+    const pageIsNotMax = page < maxPage;
+
+    if(scrollIsBottom && pageIsNotMax) {
         page++;
         const { data } = await api('movie/now_playing', {
             params: {
@@ -333,7 +339,9 @@ async function getPaginatedTopRatedMovies() {
 
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
-    if(scrollIsBottom) {
+    const pageIsNotMax = page < maxPage;
+
+    if(scrollIsBottom && pageIsNotMax) {
         page++;
         const { data } = await api('movie/top_rated', {
             params: {
@@ -355,7 +363,9 @@ async function getPaginatedOnAirSeries() {
 
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
-    if(scrollIsBottom) {
+    const pageIsNotMax = page < maxPage;
+
+    if(scrollIsBottom && pageIsNotMax) {
         page++;
         const { data } = await api('tv/popular', {
             params: {
@@ -377,7 +387,9 @@ async function getPaginatedTopRatedSeries() {
 
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
-    if(scrollIsBottom) {
+    const pageIsNotMax = page < maxPage;
+
+    if(scrollIsBottom && pageIsNotMax) {
         page++;
         const { data } = await api('tv/top_rated', {
             params: {
@@ -389,51 +401,76 @@ async function getPaginatedTopRatedSeries() {
         createFullPageMedias(movies,fullMediaPageContainer,false,{lazyLoad: true, clean:false});
     };
 }
-async function getPaginatedMoviesByGenre() {
-    const [_, categoryData] = location.hash.split('=');
-    const [categoryId, categoryName] = categoryData.split('-');
-    const newName = categoryName.replace('%20', '');
 
-    const {
-        scrollTop,
-        scrollHeight,
-        clientHeight,
-    } = document.documentElement;
+function getPaginatedMoviesByGenre(categoryId) {
+   return async function () {
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+        const {
+            scrollTop,
+            scrollHeight,
+            clientHeight,
+        } = document.documentElement;
 
-    if(scrollIsBottom) {
-        page++;
-        const { data } = await api(`discover/movie`,{
-            params: {
-                with_genres: categoryId,
-                page,
-            },
-        });
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
-        const movies = data.results;
-        createFullPageMedias(movies,fullMediaPageContainer,false,{lazyLoad: true, clean:false});
-    };
+        const pageIsNotMax = page < maxPage;
+
+        if(scrollIsBottom && pageIsNotMax) {
+            page++;
+            const { data } = await api(`discover/movie`,{
+                params: {
+                    with_genres: categoryId,
+                    page,
+                },
+            });
+            
+            const movies = data.results;
+            createFullPageMedias(movies,fullMediaPageContainer,true,{lazyLoad: true, clean:false});
+        };
+   }
 }
 
-
+function getPaginatedMoviesBySearch(query){
+    return async function () {
+        const {
+            scrollTop,
+            scrollHeight,
+            clientHeight,
+        } = document.documentElement;
+    
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    
+        const pageIsNotMax = page < maxPage;
+    
+        if(scrollIsBottom && pageIsNotMax) {
+            page++;
+            const { data } = await api(`search/multi`,{
+                params: {
+                    query,
+                    page,
+                },
+            });
+            medias = data.results;
+            console.log(data);
+            multiSearchFullPageMedias(medias,fullMediaPageContainer,{lazyLoad:true,clean:false})
+        };
+    }
+    
+}
 
 //TODO: Buscador para series, películas y directores (CHECK)
 async function getMediasBySearch(query){
-    resultsContainer.innerHTML = "";
-    const createContainer = document.createElement('div');
-    createContainer.classList = 'movie-preview__container';
-    
     const { data } = await api(`search/multi`,{
             params: {
                 query,
             },
         });
         medias = data.results;
-        console.log(data.results);
-
-    multiSearchFullPageMedias(medias,fullMediaPageContainer,{lazyLoad:true,clean:true})
+        maxPage = data.total_pages;
+        console.log(data);
+        multiSearchFullPageMedias(medias,fullMediaPageContainer,{lazyLoad:true,clean:true})
 }
+
 
 //Api calls for single media details. 
 
