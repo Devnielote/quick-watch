@@ -32,21 +32,28 @@
           <h1>Quick Watch</h1>
         </a>
       </div>
-      <div class="menu__container">
-        <ul>
-          <li>
-            <!-- <a href="#movies">Movies</a> -->
-          </li>
-          <!-- <li><a href="#series">Series</a></li> -->
-          <!-- <li><a href="#directors">Directors</a></li> -->
-          <li>
-            <a
-              href="https://developers.themoviedb.org/3/getting-started/introduction"
-              >About API</a
-            >
-          </li>
-          <li><a href="https://github.com/Devnielote">Contact</a></li>
-        </ul>
+      <div id="menu-btn" class="menu__btn">
+        <input id="input-checkbox" class="checkbox" type="checkbox" />
+        <img src="./styles/assets/icons8-menu.svg" alt="" />
+        <div class="menu__container" id="menu-container">
+          <ul>
+            <li>
+              <a
+                href="https://developers.themoviedb.org/3/getting-started/introduction"
+                >About API</a
+              >
+            </li>
+            <li><a href="https://github.com/Devnielote">Contact</a></li>
+            <li>
+              <select name="language" id="lang">
+                <option value="es">&#127474;&#127485;</option>
+                <option value="en-US">&#127482;&#127480;</option>
+                <option value="pt-BR">&#127463;&#127479;</option>
+                <option value="fr">&#127467;&#127479;</option>
+              </select>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
     <aside id="desktopCategories__container">
@@ -127,9 +134,9 @@
           id="mediaFullPage-container"
         ></div>
       </section>
-      <section class="categorie--detail" id="category-single-view">
+      <!-- <section class="categorie--detail" id="category-single-view">
         <div class="categorie__title" id="category-title"></div>
-      </section>
+      </section> -->
       <!-- Medias full page section -->
 
       <!-- Home page section with carousel medias -->
@@ -175,6 +182,16 @@
           </div>
           <div class="--carousel" id="topRatedSeries-container"></div>
         </section>
+
+        <section class="generic__section" id="generic-section">
+          <div class="title__container">
+            <h2>Watchlist</h2>
+            <!-- <a href="#favoriteMovies" class="home__loadMore" id="seeMore-btn"
+              >See more</a
+            > -->
+          </div>
+          <div class="--carousel" id="favoriteMedias-container"></div>
+        </section>
       </div>
       <!-- Home page section with carousel medias -->
     </div>
@@ -194,10 +211,10 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./src/API.js"></script>
-    <script src="./src/nodes.js"></script>
-    <script src="./src/index.js"></script>
-    <script src="./src/navigation.js"></script>
+    <script src="./src/API.js" charset="utf-8"></script>
+    <script src="./src/nodes.js" charset="utf-8"></script>
+    <script src="./src/index.js" charset="utf-8"></script>
+    <script src="./src/navigation.js" charset="utf-8"></script>
     <!-- Scripts -->
   </body>
 </html>
