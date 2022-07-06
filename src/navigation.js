@@ -23,6 +23,11 @@ window.addEventListener('resize', () => {
 })
 
 window.addEventListener('DOMContentLoaded', navigator);
+window.addEventListener('DOMContentLoaded', () => {
+    if(screen.width >= 1024 && inputCheckbox.checked == false){
+        showMenu()
+    }
+})
 window.addEventListener('hashchange', navigator);
 window.addEventListener('scroll', infiniteScroll, false);
 

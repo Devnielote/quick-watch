@@ -47,6 +47,9 @@ function likeMedia(media){
         page = 1;
         const [_, query] = location.hash.split('=');
         getMediasBySearch(query);
+    } else if(location.hash.startsWith('#nowPlayingMovies')){
+        page = 1;
+        getNowPlayingMoviesFullPage();
     }
 }
 
