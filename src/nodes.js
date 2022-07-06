@@ -4,6 +4,10 @@ const topNavContainer = document.querySelector('#top-nav-container');
 //Header section
 const headerContainer = document.querySelector('#movie-header');
 const backBtn = document.querySelector('#back-btn');
+const menuContainer = document.querySelector('#menu-container');
+const openMenuBtn = document.querySelector('#menu-btn');
+const language = document.querySelector('#lang');
+const inputCheckbox = document.querySelector('#input-checkbox')
 
 //Home sections
 const homeSections = document.querySelector('#home-section__container');
@@ -11,6 +15,7 @@ const nowPlayingMoviesContainer = document.querySelector('#nowPlayingMovies-cont
 const topRatedMoviesContainer = document.querySelector('#topRatedMovies-container');
 const onAirSeriesContainer = document.querySelector('#onAirSeries-container');
 const topRatedSeriesContainer = document.querySelector('#topRatedSeries-container');
+const favoritesMediasContainer = document.querySelector('#favoriteMedias-container')
 const homeSeeMoreBtn = document.querySelectorAll('#seeMore-btn');
 
 //Generic category list section
