@@ -452,11 +452,12 @@ async function getPaginatedPlayingNowMovies() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    const y = window.scrollY;
 
     const pageIsNotMax = page < maxPage;
 
-    if(scrollIsBottom && pageIsNotMax) {
+    if(scrollIsBottom && y >= scrollIsBottom && pageIsNotMax) {
         page++;
         const { data } = await api('movie/now_playing', {
             params: {
@@ -477,7 +478,7 @@ async function getPaginatedTopRatedMovies() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
     const pageIsNotMax = page < maxPage;
 
@@ -502,7 +503,7 @@ async function getPaginatedOnAirSeries() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
     const pageIsNotMax = page < maxPage;
 
@@ -527,7 +528,7 @@ async function getPaginatedTopRatedSeries() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
     const pageIsNotMax = page < maxPage;
 
@@ -553,7 +554,7 @@ function getPaginatedMoviesByGenre(categoryId) {
             clientHeight,
         } = document.documentElement;
 
-        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
 
         const pageIsNotMax = page < maxPage;
 
@@ -581,7 +582,7 @@ function getPaginatedMoviesBySearch(query){
             clientHeight,
         } = document.documentElement;
     
-        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
     
         const pageIsNotMax = page < maxPage;
     
