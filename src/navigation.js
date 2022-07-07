@@ -30,11 +30,13 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 window.addEventListener('hashchange', navigator);
 window.addEventListener('scroll', infiniteScroll, false);
+document.body.addEventListener('touchmove',infiniteScroll, false);
 
 
 function navigator() {
     if(infiniteScroll){
         window.removeEventListener('scroll', infiniteScroll, { passive: false});
+        document.body.removeEventListener('touchmove',infiniteScroll, {passive: false});
         infiniteScroll = undefined;
     }
     page = 1;
@@ -67,6 +69,7 @@ function navigator() {
 
     if(infiniteScroll) {
         window.addEventListener('scroll', infiniteScroll, { passive: false});
+        document.body.addEventListener('touchmove',infiniteScroll,{passive: false});
     }
 }
 
