@@ -38,19 +38,16 @@ function likeMedia(media){
     getOnAirSeriesPreview();
     getTopRatedSeriesPreview();
     getLikedMediasPreview();
-    if(location.hash.startsWith('#category')){
-        page = 1;
-        const [_, categoryData] = location.hash.split('=');
-        const [categoryId, categoryName] = categoryData.split('-');
-        getMoviesByCategory(categoryId);
-    } else if (location.hash.startsWith('#search')){
-        page = 1;
-        const [_, query] = location.hash.split('=');
-        getMediasBySearch(query);
-    } else if(location.hash.startsWith('#nowPlayingMovies')){
-        page = 1;
-        getNowPlayingMoviesFullPage();
-    }
+    // if(location.hash.startsWith('#category')){
+    //     page = 1;
+    //     const [_, categoryData] = location.hash.split('=');
+    //     const [categoryId, categoryName] = categoryData.split('-');
+    //     getMoviesByCategory(categoryId);
+    // } else if (location.hash.startsWith('#search')){
+    //     page = 1;
+    //     const [_, query] = location.hash.split('=');
+    //     getMediasBySearch(query);
+    // }
 }
 
 //Utils
@@ -455,7 +452,7 @@ async function getPaginatedPlayingNowMovies() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
 
     const pageIsNotMax = page < maxPage;
 
@@ -480,7 +477,7 @@ async function getPaginatedTopRatedMovies() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
 
     const pageIsNotMax = page < maxPage;
 
@@ -505,7 +502,7 @@ async function getPaginatedOnAirSeries() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
 
     const pageIsNotMax = page < maxPage;
 
@@ -530,7 +527,7 @@ async function getPaginatedTopRatedSeries() {
         clientHeight,
     } = document.documentElement;
 
-    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
 
     const pageIsNotMax = page < maxPage;
 
@@ -556,7 +553,7 @@ function getPaginatedMoviesByGenre(categoryId) {
             clientHeight,
         } = document.documentElement;
 
-        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
 
         const pageIsNotMax = page < maxPage;
 
@@ -584,7 +581,7 @@ function getPaginatedMoviesBySearch(query){
             clientHeight,
         } = document.documentElement;
     
-        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 50);
     
         const pageIsNotMax = page < maxPage;
     
