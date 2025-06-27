@@ -153,7 +153,7 @@ function createMedias(medias, container, mediaTypeMovie, {lazyLoad = false, clea
             starIcon.src = './styles/assets/start-flaticon.png';
             starIcon.style.width = '20px';
             const rating = document.createElement('span');
-            const ratingNumbers = document.createTextNode(`${media.vote_average}`);
+            const ratingNumbers = document.createTextNode(`${Math.floor(media.vote_average)}`);
             rating.append(ratingNumbers);
             ratingContainer.append(starIcon,rating);
             infoContainer.append(infoName,ratingContainer);
@@ -627,7 +627,6 @@ async function createSinglePageMedia(media, container, mediaType, {lazyLoad = fa
     singleMediaDetailsInfo.innerHTML = '';
     if(mediaType == 'person') {
         credits  = await api(`/person/${mediaId}/combined_credits`);
-        console.log(credits)
         const generateSingleMediaDetails = 
     singleMediaDetailsBg.style.backgroundImage = `url(${API_IMAGE_REQUEST(media.profile_path)})`;
     const backArrowContainer = document.createElement('div');
@@ -726,7 +725,7 @@ async function getMediaDetailsById(mediaId){
         starImg.src = './styles/assets/start-flaticon.png';
         starImg.style.width = '20px';
         const span = document.createElement('span');
-        const rating = document.createTextNode(`${data.vote_average}`);
+        const rating = document.createTextNode(`${Math.floor(data.vote_average)}`);
         span.append(rating);
         movieRating.append(starImg,span)
         videoInfo.append(movieRating)
