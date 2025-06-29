@@ -1,2 +1,2 @@
 # Quick watch 🎬
-- ![](./src/images/quick-desktop)
+- ![](src/images/quick-desktop.png)
