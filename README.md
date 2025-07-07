@@ -30,4 +30,4 @@ In this project I design and developed a movie and TV show catalog that allowed 
 - CSS3
 - JavaScript (ES6+)
 - Axios
-- ![TMDB API](https://developer.themoviedb.org/docs/getting-started)
+- TMDB API - https://developer.themoviedb.org/docs/getting-started)
